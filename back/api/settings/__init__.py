@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'product',
     'stats',
     'stock',
+    'vehicle',
 ]
 
 MIDDLEWARE = [

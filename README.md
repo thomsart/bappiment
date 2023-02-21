@@ -6,21 +6,23 @@ Le but de cette application est de gerer de A à Z n'importe quelle entreprise d
 Une interface par utilisateur on fonction de sa position dans l'entreprise:  
 - Le Patron
 - Le Comptable
-- Le Commercial
 - Le Standardiste
+- Le Commercial
 - Le Conducteur des Travaux
 - Le Chef du SAV
 - Le Chef d'Atelier
+- Le contremaître
+- L'Electrotechnicien
 - L'Electricien
-- Le Maçon
-- Le Chaudronnier
-- Le Livreur
-- Le Poseur
 - Le Dépanneur
+- Le Poseur
+- Le Sérrurier
+- Le Chaudronnier
+- Le Maçon
 - L'Agent de Maintenance
+- Le Livreur
 - L'Apprentis
-- Le Stagière
-- Le Contact référent produit
+- Le Fournisseur
 - Le Client
 
 ## 2. Gestion des Clients
