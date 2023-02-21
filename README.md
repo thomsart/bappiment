@@ -2,7 +2,7 @@
 Application de gestion d'entreprises du BTP.  
 Le but de cette application est de gerer de A à Z n'importe quelle entreprise du BTP.  
 
-## 1. Gestion des Users (group)
+## 1. Gestion des Utilisateurs par catégorie
 Une interface par utilisateur on fonction de sa position dans l'entreprise:  
 - Le Patron
 - Le Comptable
@@ -41,7 +41,7 @@ Le planning gère en temps réel les tâches de gestion:
 - Les Dépannages
 - Les Congés
 
-## 5. Gestion des produits
+## 4. Gestion des produits
 La gestion des produits caractérisant le domaine de l'entreprise:
 - Portail
 - Porte
@@ -59,7 +59,7 @@ La gestion des produits caractérisant le domaine de l'entreprise:
     - Dépannage
     - Maintenance
 
-## 4. Gestion du Stock  
+## 5. Gestion du Stock  
 Le Contenu en temps réel:
 - Produits disponibles (hors reservés pour chantier)
 - Produits manquants
@@ -67,7 +67,7 @@ Le Contenu en temps réel:
 - Produits déffectueux
 - Prix (achat/vente/remise/bénéfice)
 
-## 5. Gestion de l'Administration
+## 6. Gestion de l'Administration
 - Les Frais (Cotisations, TVA etc)
 - Les Fiche de Paies
 - Les Devis
@@ -78,12 +78,20 @@ Le Contenu en temps réel:
 - Les Relances
 - Les Organismes (Visites médicales, Contrôles technique voitures etc)
 
-## 6. Gestion du contact
+## 7. Gestion du contact client
 Gestion des relation entre les clients et l'entreprise à l'aide d'un Chat.
 
-## 7. Gestion d'un CRM
+## 8. Gestion des statistiques
 Affichage des statistiques de l'entreprise:
 - Chiffres d'Affaire annuel
 - Avaries (Employé ou client)
 - Meilleurs Ventes
 - Axes d'Améliorations
+
+## 9. Site Vitrine
+Site internet de l'entreprise:
+- Historique
+- Secteur et Activité
+- Contact
+- Blog
+- Mentions legales et CGU
