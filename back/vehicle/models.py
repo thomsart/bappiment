@@ -1,10 +1,10 @@
 from django.db import models
 
-from home.models import User
+from home.models import CustomUser
 
 
 
-class Vehicle(models.model):
+class Vehicle(models.Model):
 
     model = models.CharField(max_length=10)
     date  = models.DateField(auto_now_add=True)
@@ -12,4 +12,4 @@ class Vehicle(models.model):
     km  = models.PositiveIntegerField(default=0)
     price = models.PositiveIntegerField(default=0)
     registration_card = models.ImageField(null=True)
-    user = models.Choices(User)
+    user = models.ForeignKey(CustomUser, models.SET_NULL, blank=True, null=True)

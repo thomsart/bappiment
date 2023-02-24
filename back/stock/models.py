@@ -5,7 +5,7 @@ from vehicle.models import Vehicle
 
 
 
-class Stock(models.model):
+class Stock(models.Model):
 
     product = models.ForeignKey(Product, models.SET_NULL, blank=True, null=True)
     vehicle = models.ForeignKey(Vehicle, models.SET_NULL, blank=True, null=True)

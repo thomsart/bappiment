@@ -4,14 +4,14 @@ from django.db import models
 
 
 
-class LegalEntity(models.model):
+class LegalEntity(models.Model):
 
     entity = models.CharField(max_length=15, unique=True)
 
 
 class Client(models.Model):
 
-    legal_entity = models.Choices(LegalEntity, on_delete=models.PROTECT)
+    legal_entity = models.ForeignKey(LegalEntity, on_delete=models.PROTECT)
     name = models.CharField(max_length=50, unique=True)
     siren = models.CharField(max_length=9, unique=True, blank=True, null=True)
     siret = models.CharField(max_length=14, unique=True, blank=True, null=True)
@@ -22,7 +22,7 @@ class Client(models.Model):
     date = models.DateField(auto_now_add=True)
 
 
-class Installation(models.model):
+class Installation(models.Model):
 
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     zip_code = models.CharField(max_length=10)

@@ -4,17 +4,17 @@ from client.models import Installation
 
 
 
-class ProductFamily(models.model):
+class ProductFamily(models.Model):
 
     family = models.CharField(max_length=30, unique=True)
 
 
-class ProductBrand(models.model):
+class ProductBrand(models.Model):
 
     brand = models.CharField(max_length=30, unique=True)
 
 
-class Product(models.model):
+class Product(models.Model):
 
     family = models.ForeignKey(ProductFamily, on_delete=models.PROTECT)
     brand = models.ForeignKey(ProductBrand, on_delete=models.PROTECT)
@@ -29,7 +29,7 @@ class Product(models.model):
     info = models.TextField(max_length=200, blank=True, default="")
 
 
-class InstallationProduct():
+class InstallationProduct(models.Model):
 
     product = models.ForeignKey(Product, models.SET_NULL, blank=True, null=True)
     installation = models.ForeignKey(Installation, models.SET_NULL, blank=True, null=True)

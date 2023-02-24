@@ -17,6 +17,7 @@ from .local import *
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SITE_ID = 1
 
 # Application definition
 INSTALLED_APPS = [
@@ -110,4 +111,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'home.User'
+AUTH_USER_MODEL = 'home.CustomUser'

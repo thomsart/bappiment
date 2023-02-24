@@ -1,3 +1,3 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 
-from .models import LegalEntity, ClientCompany, Installation
+from .models import LegalEntity, Client, Installation

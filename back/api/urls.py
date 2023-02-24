@@ -20,7 +20,7 @@ from rest_framework import routers
 from home import views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
+router.register(r'users', views.CustomUserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
