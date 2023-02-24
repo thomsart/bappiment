@@ -1,9 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
 
-# The application use the 'django.contrib.auth.models' with 'User' and 'Group'
-groups_are = [
+from client.models import Client
+
+
+class User(AbstractUser):
+
+    phone = models.CharField(max_length=15)
+    client = models.Choices(Client, blank=True, default="")
+
+
+user_groups = [
     'comptable', # accountant
     'commerciale', # commercial
     'standardiste', # receptionist
@@ -25,10 +33,58 @@ groups_are = [
     'contact_client', # client
 ]
 
-notifications = [
-    "impayé",
+user_state = [
+    "chantier",
+    "déplacement chantier",
+    "dépannage",
+    "déplacement dépannage",
+    "maintenace",
+    "déplacement maintenance",
+    "livraison",
+    "congé",
+    "arrêt maladie",
+    "accident de travail",
     "retard",
-    "épuisé",
-    "contôle_technique",
+    "absent",
+    "réunion",
+    "rdv",
+    "bbq",
+]
+
+installation_state = [
+    "retard",
+    "chantier",
+    "avarie",
+    "panne",
+    "maintenance",
+    "attente paiement",
+    "fonctionne",
+]
+
+product_family = [
+    "bureautique",
+    "epi",
+    "outillage",
+    "électroportatif",
+    "électricité",
+    "électronique",
+    "sécurité",
+    "mécanique",
+    "pneumatique",
+    "entretien",
+    "maçonnerie",
+    "peinture",
+    "métal",
+    "consommable",
+]
+
+product_state = [
+    "rupture",
+    "hs",
+]
+
+vehicle_state = [
+    "contôle technique",
     "révision",
+    "accident",
 ]
