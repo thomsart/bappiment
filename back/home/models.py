@@ -1,20 +1,22 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from client.models import Client
 
+
+class Status(models.Model):
+
+    status = models.CharField(max_length=10, unique=True)
 
 
 class CustomUser(AbstractUser):
 
     phone = models.CharField(max_length=15)
-    client = models.ForeignKey(Client, models.SET_NULL, blank=True, null=True)
-
+    status = models.ForeignKey(Status, on_delete=models.RESTRICT)
 
     def __str__(self):
         return self.email
 
-user_groups = [
+user_status = [
     'comptable', # accountant
     'commerciale', # commercial
     'standardiste', # receptionist
@@ -32,8 +34,8 @@ user_groups = [
     'poseur', # installer
     'agent_maintenance', # maintenance_agent
     'apprentis', # apprentices
-    'contact_fournisseur', # supplier
-    'contact_client', # client
+    'fournisseur', # supplier
+    'client', # client
 ]
 
 user_state = [

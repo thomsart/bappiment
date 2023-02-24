@@ -17,7 +17,6 @@ from .local import *
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SITE_ID = 1
 
 # Application definition
 INSTALLED_APPS = [
@@ -34,6 +33,7 @@ INSTALLED_APPS = [
     'financial',
     'home',
     'product',
+    'shop',
     'stats',
     'stock',
     'vehicle',

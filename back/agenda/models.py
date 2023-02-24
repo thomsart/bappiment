@@ -1,8 +1,9 @@
 from datetime import date
 
 from django.db import models
+from django.contrib.auth.models import User
 
-from home.models import CustomUser, Client
+from home.models import Client
 from client.models import Installation
 from stock.models import Stock
 from vehicle.models import Vehicle
@@ -32,7 +33,7 @@ class VehicleState(models.Model):
 class Event(models.Model):
 
     date = models.DateField(default=date.today)
-    user = models.ForeignKey(CustomUser, models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
     user_state = models.ForeignKey(UserState, models.SET_NULL, blank=True, null=True)
     installation = models.ForeignKey(Installation, models.SET_NULL, blank=True, null=True)
     installation_state = models.ForeignKey(InstallationState, models.SET_NULL, blank=True, null=True)
@@ -48,7 +49,7 @@ class Event(models.Model):
 class WorkSheet(models.Model):
 
     date = models.DateField(auto_now_add=True)
-    user = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     installation = models.ForeignKey(Installation, on_delete=models.PROTECT)
     event = models.ForeignKey(Event, models.SET_NULL, blank=True, null=True)
