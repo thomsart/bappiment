@@ -16,21 +16,21 @@ class ProductBrand(models.model):
 
 class Product(models.model):
 
-    family = models.Choices(ProductFamily)
-    brand = models.Choices(ProductBrand)
+    family = models.ForeignKey(ProductFamily, on_delete=models.PROTECT)
+    brand = models.ForeignKey(ProductBrand, on_delete=models.PROTECT)
     ref = models.CharField(max_length=50, unique=True)
     color = models.CharField(max_length=20, blank=True, default="")
     dimension = models.JSONField(null=True)
-    total_bought = models.PositiveSmallIntegerField(default=0)
+    total_bought = models.PositiveIntegerField(default=0)
     cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     sale = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     info = models.TextField(max_length=200, blank=True, default="")
-    doc = models.FileField(null=True) # ou FilePathField()
+    doc = models.FileField(null=True)
     info = models.TextField(max_length=200, blank=True, default="")
 
 
 class InstallationProduct():
 
-    client_installation = models.ForeignKey(Installation)
-    product = models.ForeignKey(Product)
+    product = models.ForeignKey(Product, models.SET_NULL, blank=True, null=True)
+    installation = models.ForeignKey(Installation, models.SET_NULL, blank=True, null=True)
     quantity = models.PositiveSmallIntegerField(default=1)

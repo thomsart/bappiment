@@ -2,7 +2,7 @@ from datetime import date
 
 from django.db import models
 
-from home.models import User
+from home.models import User, Client
 from client.models import Installation
 from stock.models import Stock
 from vehicle.models import Vehicle
@@ -32,25 +32,29 @@ class VehicleState(models.model):
 class Event(models.model):
 
     date = models.DateField(default=date.today)
-    user = models.ForeignKey(User, null=True)
-    user_state = models.ForeignKey(UserState, null=True)
-    installation = models.ForeignKey(Installation, null=True)
-    installation_state = models.ForeignKey(InstallationState, null=True)
-    stock = models.ForeignKey(Stock, null=True)
-    stock_state = models.ForeignKey(StockState, null=True)
-    vehicle = models.ForeignKey(Vehicle, null=True)
-    vehicle_state = models.ForeignKey(VehicleState, null=True)
+    user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
+    user_state = models.ForeignKey(UserState, models.SET_NULL, blank=True, null=True)
+    installation = models.ForeignKey(Installation, models.SET_NULL, blank=True, null=True)
+    installation_state = models.ForeignKey(InstallationState, models.SET_NULL, blank=True, null=True)
+    stock = models.ForeignKey(Stock, models.SET_NULL, blank=True, null=True)
+    stock_state = models.ForeignKey(StockState, models.SET_NULL, blank=True, null=True)
+    vehicle = models.ForeignKey(Vehicle, models.SET_NULL, blank=True, null=True)
+    vehicle_state = models.ForeignKey(VehicleState, models.SET_NULL, blank=True, null=True)
     note = models.CharField(max_length=200, blank=True, default="")
 
-    # faire en sorte que si tout est null ou que plus de un couple de foreign est présent, ca ne s'édite pas
+    # il faut qu'il y est un seul couple != null
 
 
 class WorkSheet(models.model):
 
     date = models.DateField(auto_now_add=True)
-    event = models.ForeignKey(Event)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    client = models.ForeignKey(Client, on_delete=models.PROTECT)
+    installation = models.ForeignKey(Installation, on_delete=models.PROTECT)
+    event = models.ForeignKey(Event, models.SET_NULL, blank=True, null=True)
     time = models.TimeField()
-    user = models.ForeignKey(User)
-    team = models.CharField(max_length=30, blank=True, default="")
-    executed_job  = models.TextField(max_length=200, blank=True, default="")
+    executed_job = models.TextField(max_length=200, blank=True, default="")
     maintenance = models.JSONField(null=True)
+    team = models.CharField(max_length=30, blank=True, default="")
+
+    # eviter que executed_job et maintenance soient tout les deux ""
