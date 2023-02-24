@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
-
+from home.models import CustomUser
 
 class Vehicle(models.Model):
 
@@ -11,4 +11,4 @@ class Vehicle(models.Model):
     km  = models.PositiveIntegerField(default=0)
     price = models.PositiveIntegerField(default=0)
     registration_card = models.ImageField(null=True)
-    user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(CustomUser, models.SET_NULL, blank=True, null=True)

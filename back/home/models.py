@@ -3,7 +3,7 @@ from django.db import models
 
 
 
-class Status(models.Model):
+class CustomUserStatus(models.Model):
 
     status = models.CharField(max_length=10, unique=True)
 
@@ -11,7 +11,6 @@ class Status(models.Model):
 class CustomUser(AbstractUser):
 
     phone = models.CharField(max_length=15)
-    status = models.ForeignKey(Status, on_delete=models.RESTRICT)
 
     def __str__(self):
         return self.email

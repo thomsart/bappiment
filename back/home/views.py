@@ -6,6 +6,7 @@ from .models import CustomUser
 from .serializers import CustomUserSerializer, GroupSerializer
 
 
+
 class CustomUserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
