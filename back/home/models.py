@@ -11,6 +11,9 @@ class User(AbstractUser):
     client = models.Choices(Client, blank=True, default="")
 
 
+    def __str__(self):
+        return self.email
+
 user_groups = [
     'comptable', # accountant
     'commerciale', # commercial
