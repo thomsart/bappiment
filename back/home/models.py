@@ -15,80 +15,51 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
+class CustomUserWithStatus(models.Model):
+
+    user = models.ForeignKey(CustomUser, models.SET_NULL, blank=True, null=True)
+    status = models.ForeignKey(CustomUserStatus, models.SET_NULL, blank=True, null=True)
+
+
 user_status = [
+    'patron', # cto
+    'actionnaire', # ?
     'comptable', # accountant
+    'expert_comptable', # expert accountant
+    'ingénieur', # ? ingeneer
+    'architecte', # ?
+    'dessinateur_industriel', # ?
+    'géomètre', # ?
+    'géomètre_topographe', # ?
     'commerciale', # commercial
+    'technico_commercial', # commercial technician
     'standardiste', # receptionist
-    'conducteur_travaux ', # site_operator
+    'conducteur_des_travaux ', # site_operator
     'chef_sav', # repair_operator
     'chef_atelier', #  stock_operator
     'contremaître', # ?
     'electrotechnicien', # electrotechnician
     'electricien', # electrician
+    'plombier', # ?
+    'chauffagiste', # ?
     'dépanneur', # repairman
-    'maçon', # mason
     'chaudronnier', # coppersmith
     'sérrurier', # locksmith
+    'maçon', # mason
+    'charpentier', # ?
+    'menuisier', # ?
+    'ébeniste', # ?
+    'marquetier', # ?
+    'carriste', # ?
+    'conducteur_engins_de_tp', # ?
+    'plaquiste', # ?
+    'carreleur', # ?
+    'peintre', # ?
     'livreur', # postman
-    'poseur', # installer
-    'agent_maintenance', # maintenance_agent
+    'installateur', # installer
+    'agent_de_maintenance', # maintenance_agent
     'apprentis', # apprentices
+    'stagière', # ?
     'fournisseur', # supplier
     'client', # client
-]
-
-user_state = [
-    "chantier",
-    "déplacement chantier",
-    "dépannage",
-    "déplacement dépannage",
-    "maintenace",
-    "déplacement maintenance",
-    "livraison",
-    "congé",
-    "arrêt maladie",
-    "accident de travail",
-    "retard",
-    "absent",
-    "réunion",
-    "rdv",
-    "bbq",
-]
-
-installation_state = [
-    "retard",
-    "chantier",
-    "avarie",
-    "panne",
-    "maintenance",
-    "attente paiement",
-    "fonctionne",
-]
-
-product_family = [
-    "bureautique",
-    "epi",
-    "outillage",
-    "électroportatif",
-    "électricité",
-    "électronique",
-    "sécurité",
-    "mécanique",
-    "pneumatique",
-    "entretien",
-    "maçonnerie",
-    "peinture",
-    "métal",
-    "consommable",
-]
-
-product_state = [
-    "rupture",
-    "hs",
-]
-
-vehicle_state = [
-    "contôle technique",
-    "révision",
-    "accident",
 ]

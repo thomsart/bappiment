@@ -59,3 +59,63 @@ class WorkSheet(models.Model):
     team = models.CharField(max_length=30, blank=True, default="")
 
     # eviter que executed_job et maintenance soient tout les deux ""
+
+
+user_state = [
+    "en chantier",
+    "en déplacement chantier",
+    "en dépannage",
+    "en déplacement dépannage",
+    "en maintenance",
+    "en déplacement maintenance",
+    "en livraison",
+    "en congé",
+    "en arrêt maladie",
+    "en accident de travail",
+    "en retard",
+    "absent",
+    "en réunion",
+    "en rdv",
+    "bbq",
+]
+
+installation_state = [
+    "en retard",
+    "en chantier",
+    "en panne",
+    "maintenance à faire",
+    "en attente paiement",
+    "en service",
+    "avarie",
+]
+
+product_family = [
+    "bureautique",
+    "epi",
+    "outillage",
+    "électroportatif",
+    "électricité",
+    "électronique",
+    "sécurité",
+    "mécanique",
+    "pneumatique",
+    "entretien",
+    "maçonnerie",
+    "peinture",
+    "métalurgie",
+    "quincallerie",
+    "consommable",
+]
+
+product_state = [
+    "à commander",
+    "en rupture",
+    "hs",
+]
+
+vehicle_state = [
+    "contôle technique",
+    "révision",
+    "en panne",
+    "accident",
+]

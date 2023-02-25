@@ -25,3 +25,22 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+# vue page entreprise
+# permission [None]
+
+# vues generiques des users avec status (ou selon status)
+# permission []
+
+# vues generiques des status
+# permission []
+
+# vue compte
+# permission []
+
+# creation/suppression(is_active=False) user
+# permission ['superuser', 'patron', ]
+
+# ajout/suppression de status a un user
+# permission ['patron']
