@@ -1,17 +1,36 @@
-from django.contrib.auth.models import Group
 from rest_framework import serializers
 
-from .models import CustomUser
+from .models import CustomUser, CustomUserStatus, Membership
 
 
 
-class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
+########### USER STATUS #######################################################
+########### USER STATUS #######################################################
+########### USER STATUS #######################################################
+
+class CustomUserStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUserStatus
+        fields = ['url', 'status']
+
+class MembershipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Membership
+        fields = ['url', 'user', 'status']
+
+########### USER ##############################################################
+########### USER ##############################################################
+########### USER ##############################################################
+
+class LightCustomUserSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = CustomUser
-        fields = ['url', 'username', 'email', 'groups']
+        fields = ['first_name', 'last_name', 'phone']
 
+class HeavyCustomUserSerializer(serializers.ModelSerializer):
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Group
-        fields = ['url', 'name']
+        model = CustomUser
+        fields = ['id', 'first_name', 'last_name', 'email', 'phone']
+        # days_off, days_off_cumul, permanent_contract

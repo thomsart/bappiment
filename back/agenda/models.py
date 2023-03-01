@@ -1,7 +1,6 @@
 from datetime import date
 
 from django.db import models
-# from django.contrib.auth.models import User
 
 from home.models import CustomUser
 from client.models import Client, Installation
@@ -57,6 +56,7 @@ class WorkSheet(models.Model):
     executed_job = models.TextField(max_length=200, blank=True, default="")
     maintenance = models.JSONField(null=True)
     team = models.CharField(max_length=30, blank=True, default="")
+    note = models.TextField(max_length=200, blank=True, default="")
 
     # eviter que executed_job et maintenance soient tout les deux ""
 
@@ -108,6 +108,7 @@ product_family = [
 ]
 
 product_state = [
+    "bientôt en rupture",
     "à commander",
     "en rupture",
     "hs",
