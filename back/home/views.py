@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from django.http import Http404
 from rest_framework import status
 
-from .models import CustomUser, CustomUserStatus, Membership
-from .serializers import LightCustomUserSerializer, HeavyCustomUserSerializer
+from .models import User, UserStatus, Membership
+from .serializers import LightUserSerializer, HeavyUserSerializer, CreateUserSerializer
 from .permissions import IsActiveUser, IsPermanentEmployee,\
                          IsBoss, IsAccountant, IsHr, IsCommercial, IsRepairOperator, IsReceptionist, IsStockOperator,\
                          IsInstaller, IsElectrotechnician, IsCoppersmith, IsLocksmith, IsMason, IsRepairman, IsMaintenanceAgent, IsPostman,\
@@ -15,7 +15,7 @@ from .permissions import IsActiveUser, IsPermanentEmployee,\
 
 
 
-# class LightCustomUserList(APIView):
+# class LightUserList(APIView):
 #     """
 #     List all users, or create a new one.
 #     """
@@ -28,13 +28,13 @@ from .permissions import IsActiveUser, IsPermanentEmployee,\
 #     def get(self, request, format=None):
 
         
-#         users = CustomUser.objects.all().order_by('-date_joined')
-#         serializer = LightCustomUserSerializer(users, many=True)
+#         users = User.objects.all().order_by('-date_joined')
+#         serializer = LightUserSerializer(users, many=True)
 
 #         return Response(serializer.data)
 
 
-# class LightCustomUserDetail(APIView):
+# class LightUserDetail(APIView):
 #     """
 #     Retrieve, update or delete a user instance.
 #     """
@@ -42,14 +42,14 @@ from .permissions import IsActiveUser, IsPermanentEmployee,\
 #     def get_object(self, pk):
 
 #         try:
-#             return CustomUser.objects.get(pk=pk)
-#         except CustomUser.DoesNotExist:
+#             return User.objects.get(pk=pk)
+#         except User.DoesNotExist:
 #             raise Http404
 
 #     def get(self, request, pk, format=None):
 
 #         user = self.get_object(pk)
-#         serializer = LightCustomUserSerializer(user)
+#         serializer = LightUserSerializer(user)
 
 #         return Response(serializer.data)
 
@@ -59,12 +59,13 @@ from .permissions import IsActiveUser, IsPermanentEmployee,\
 ##############################################################
 
 
-class CustomUserList(APIView):
+class UserList(APIView):
     """
     List all users, or create a new one.
     """
 
     permission_classes = [
+        permissions.IsAdminUser,
         permissions.IsAuthenticated,
         IsActiveUser,
         IsPermanentEmployee,
@@ -91,14 +92,14 @@ class CustomUserList(APIView):
 
     def get(self, request, format=None):
 
-        users = CustomUser.objects.all().order_by('-date_joined')
-        serializer = HeavyCustomUserSerializer(users, many=True)
+        users = User.objects.all().order_by('date_joined')
+        serializer = HeavyUserSerializer(users, many=True)
 
         return Response(serializer.data)
 
     def post(self, request, format=None):
 
-        serializer = HeavyCustomUserSerializer(data=request.data)
+        serializer = CreateUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
 
@@ -107,12 +108,13 @@ class CustomUserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CustomUserDetail(APIView):
+class UserDetail(APIView):
     """
     Retrieve, update or delete a user instance.
     """
 
     permission_classes = [
+        permissions.IsAdminUser,
         permissions.IsAuthenticated,
         IsActiveUser,
         IsPermanentEmployee,
@@ -140,21 +142,21 @@ class CustomUserDetail(APIView):
     def get_object(self, pk):
 
         try:
-            return CustomUser.objects.get(pk=pk)
-        except CustomUser.DoesNotExist:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
 
         user = self.get_object(pk)
-        serializer = HeavyCustomUserSerializer(user)
+        serializer = HeavyUserSerializer(user)
 
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
 
         user = self.get_object(pk)
-        serializer = HeavyCustomUserSerializer(user, data=request.data)
+        serializer = HeavyUserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
 

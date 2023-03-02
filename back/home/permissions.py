@@ -27,12 +27,10 @@ class IsPermanentEmployee(permissions.BasePermission):
 
     def has_permission(self, request, view):
 
-        # if request.user.permanent_contract:
-
-        #     return True
-
-        # else:
-        return True
+        if request.user.permanent_contract:
+            return True
+        else:
+            return False
 
 
 #################################################
@@ -156,7 +154,7 @@ class IsPostman(permissions.BasePermission):
 
 
 class IsClient(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         return True
@@ -174,7 +172,7 @@ class IsActionAllowed(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
-        if request.user.status == 'boss' or request.method == 'GET':
+        if request.user.is_superuser or request.user.status == 'boss' or request.method == 'GET':
             return True
 
         elif request.method == 'PUT' and request.user.status == "accountant":

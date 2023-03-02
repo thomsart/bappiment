@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CustomUser, CustomUserStatus, Membership
+from .models import User, UserStatus, Membership
 
 
 
@@ -8,29 +8,43 @@ from .models import CustomUser, CustomUserStatus, Membership
 ########### USER STATUS #######################################################
 ########### USER STATUS #######################################################
 
-class CustomUserStatusSerializer(serializers.ModelSerializer):
+class UserStatusSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUserStatus
-        fields = ['url', 'status']
+        model = UserStatus
+        fields = ["url", "status"]
 
 class MembershipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
-        fields = ['url', 'user', 'status']
+        fields = ["url", "user", "status"]
 
 ########### USER ##############################################################
 ########### USER ##############################################################
 ########### USER ##############################################################
 
-class LightCustomUserSerializer(serializers.ModelSerializer):
+class LightUserSerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = CustomUser
-        fields = ['first_name', 'last_name', 'phone']
+        model = User
+        fields = ["first_name", "last_name", "phone"]
 
-class HeavyCustomUserSerializer(serializers.ModelSerializer):
+class HeavyUserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = CustomUser
-        fields = ['id', 'first_name', 'last_name', 'email', 'phone']
-        # days_off, days_off_cumul, permanent_contract
+        model = User
+        fields = ["id", "first_name", "last_name", "email", "phone",
+                  "days_off", "days_off_cumul", "permanent_contract"]
+
+class CreateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "email", "phone", "password"]
+
+
+# {
+# "first_name": "Marc",
+# "last_name": "Touati",
+# "email":"mt@gmail.com",
+# "phone": "0646756938",
+# "password": "tatayoyo77+"
+# }

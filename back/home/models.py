@@ -4,7 +4,7 @@ from django.db import models
 
 
 
-class CustomUser(AbstractUser):
+class User(AbstractUser):
 
     phone = models.CharField(max_length=15)
     days_off = models.PositiveSmallIntegerField(default=0)
@@ -12,21 +12,22 @@ class CustomUser(AbstractUser):
     permanent_contract = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.email
+        return self.first_name + " " + self.last_name
 
 
-class CustomUserStatus(models.Model):
+class UserStatus(models.Model):
 
-    status = models.CharField(max_length=10, unique=True)
+    status = models.CharField(max_length=30, unique=True)
     members = models.ManyToManyField(
-        CustomUser, through='Membership', through_fields=('status', 'user'),)
+        User, through='Membership', through_fields=('status', 'user'),)
 
 class Membership(models.Model):
 
-    status = models.ForeignKey(CustomUserStatus, models.SET_NULL, blank=True, null=True)
-    user = models.ForeignKey(CustomUser, models.SET_NULL, blank=True, null=True)
+    status = models.ForeignKey(UserStatus, models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
+    date = models.DateField(auto_now=True)
     inviter = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="Membership_invites",)
+        User, on_delete=models.CASCADE, related_name="Membership_invites",)
 
 
 user_status = [
@@ -39,24 +40,24 @@ user_status = [
     # 'actionnaire', # ?
     'accountant', # comptable
     'Hr', # rh
-    # 'expert_comptable', # expert accountant
+    # 'expert comptable', # expert accountant
     # 'ingénieur', # ? ingeneer
     # 'architecte', # ?
-    # 'dessinateur_industriel', # ?
+    # 'dessinateur industriel', # ?
     # 'géomètre', # ?
-    # 'géomètre_topographe', # ?
+    # 'géomètre topographe', # ?
     'commercial', # commerciale
-    # 'technico_commercial', # commercial technician
-    'repair_operator', # chef_sav
+    # 'technico commercial', # commercial technician
+    'repair operator', # chef sav
     # 'contremaître', # ?
-    # 'conducteur_des_travaux ', # site_operator
+    # 'conducteur des travaux', # site operator
 
 ############ Level 2 #######################################
 ############ Level 2 #######################################
 ############ Level 2 #######################################
 
     'receptionist', # standardiste
-    'stock_operator', #  chef_atelier
+    'stock operator', #  chef atelier
     'electrotechnician', # electrotechnicien
     # 'electricien', # electrician
     # 'plombier', # ?
@@ -70,13 +71,13 @@ user_status = [
     # 'ébeniste', # ?
     # 'marquetier', # ?
     # 'carriste', # ?
-    # 'conducteur_engins_de_tp', # ?
+    # 'conducteur engins de tp', # ?
     # 'plaquiste', # ?
     # 'carreleur', # ?
     # 'peintre', # ?
     'postman', # livreur
     'installer', # installateur
-    'maintenance_agent', # agent_de_maintenance
+    'maintenance agent', # agent de maintenance
     # 'apprentis', # apprentices
     # 'stagière', # ?
     # 'fournisseur', # supplier
