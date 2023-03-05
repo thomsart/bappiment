@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 
 from django.db import models
@@ -15,31 +16,30 @@ class User(AbstractUser):
         return self.first_name + " " + self.last_name
 
 
-class UserStatus(models.Model):
+class Status(models.Model):
 
-    status = models.CharField(max_length=30, unique=True)
-    members = models.ManyToManyField(
-        User, through='Membership', through_fields=('status', 'user'),)
+    name = models.CharField(max_length=30, unique=True)
+    members = models.ManyToManyField(User, through='Membership')
+
+    def __str__(self):
+        return self.name
 
 class Membership(models.Model):
 
-    status = models.ForeignKey(UserStatus, models.SET_NULL, blank=True, null=True)
-    user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
     date = models.DateField(auto_now=True)
-    inviter = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="Membership_invites",)
+    user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
+    status = models.ForeignKey(Status, models.SET_NULL, blank=True, null=True)
 
+    class Meta:
+        ordering = ['user', '-date']
+        unique_together = [['user', 'status']]
 
-user_status = [
-
-############ Level 1 #######################################
-############ Level 1 #######################################
-############ Level 1 #######################################
-
+status = [
+    ######## Level 1 #################
     'boss', # patron
     # 'actionnaire', # ?
     'accountant', # comptable
-    'Hr', # rh
+    'hr', # rh
     # 'expert comptable', # expert accountant
     # 'ingénieur', # ? ingeneer
     # 'architecte', # ?
@@ -51,11 +51,7 @@ user_status = [
     'repair operator', # chef sav
     # 'contremaître', # ?
     # 'conducteur des travaux', # site operator
-
-############ Level 2 #######################################
-############ Level 2 #######################################
-############ Level 2 #######################################
-
+    ######## Level 2 #################
     'receptionist', # standardiste
     'stock operator', #  chef atelier
     'electrotechnician', # electrotechnicien

@@ -7,7 +7,7 @@ from rest_framework import permissions
 ###############################################################################
 
 
-class IsActiveUser(permissions.BasePermission):
+class IsActive(permissions.BasePermission):
     """ This permission just check if the user is a permanent employee
     to avoid that an fixed-term contract user messed up in the 
     application. """
@@ -34,14 +34,14 @@ class IsPermanentEmployee(permissions.BasePermission):
 
 
 #################################################
-######################## Office user ############
+#                 Office user                   #
 #################################################
 
 
 class IsBoss(permissions.BasePermission):
     
     def has_permission(self, request, view):
-
+        # if boss or resquest.user.is_superuser:
         return True
 
 
@@ -88,7 +88,7 @@ class IsReceptionist(permissions.BasePermission):
 
 
 #################################################
-######################## On the spot user #######
+#                On the spot user               #
 #################################################
 
 
@@ -159,6 +159,11 @@ class IsClient(permissions.BasePermission):
 
         return True
 
+class IsNotClient(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+
+        return True
 
 ###############################################################################
 ############################ object Permissions ###############################
