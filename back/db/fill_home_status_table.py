@@ -3,8 +3,9 @@
 
 import psycopg2
 
+from api.settings import LANGUAGE_CODE
 from api.settings.local import DATABASES
-from home.const import STATUS
+from const import STATUS
 
 """ We did this script to fill the status table cause it's not something
 the user will do. """
@@ -22,8 +23,9 @@ def main():
         cur = conn.cursor()
         sql_block = ""
 
-        for key, value in enumerate(STATUS) :
-            sql_block += f"INSERT INTO home_status (name) VALUES ('{value}');\n"
+        for dicts in STATUS.items():
+            for dict in dicts[1].items():
+                sql_block += f"INSERT INTO home_status (name, level) VALUES ('{dict[1][LANGUAGE_CODE]}', '{dict[1]['level']}');\n"
 
         cur.execute(sql_block)
         cur.close()

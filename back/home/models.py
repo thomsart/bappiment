@@ -19,6 +19,7 @@ class User(AbstractUser):
 class Status(models.Model):
 
     name = models.CharField(max_length=30, unique=True)
+    level = models.CharField(max_length=1)
     members = models.ManyToManyField(User, through='Membership')
 
     def __str__(self):
