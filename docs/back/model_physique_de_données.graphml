@@ -182,8 +182,8 @@ user: (fk)
 user_state: (fk)
 installation: (fk)
 installation_state: (fk)
-stock: (fk)
-stock_state: (fk)
+product: (fk)
+product_state: (fk)
 vehicle: (fk)
 vehicle_state: (fk)
 note: TextField()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
@@ -514,7 +514,7 @@ state: CharField()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><
           <y:Geometry height="102.81133177570098" width="227.47680240320437" x="1019.6113734979969" y="612.2642648531377"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#3366FF" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="20" fontStyle="plain" hasLineColor="false" height="28.501953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="100.71875" x="63.37902620160219" xml:space="preserve" y="4.0">StockState</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#3366FF" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="20" fontStyle="plain" hasLineColor="false" height="28.501953125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="119.625" x="53.92590120160219" xml:space="preserve" y="4.0">ProductState</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="18" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="top" visible="true" width="161.0693359375" x="2.0" xml:space="preserve" y="40.501953125">id: BigAutoField(pk)
 state: CharField()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
           <y:StyleProperties>

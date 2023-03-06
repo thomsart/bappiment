@@ -5,7 +5,12 @@ import psycopg2
 
 from api.settings import LANGUAGE_CODE
 from api.settings.local import DATABASES
-from .const import STATUS
+from .installation_states import INSTALLATION_STATES
+from .product_familys import PRODUCT_FAMILYS
+from .product_states import PRODUCT_STATES
+from .user_states import USER_STATES
+from .user_status import STATUS
+from .vehicle_states import VEHICLE_STATES
 
 """ We did this script to fill the status table cause it's not something
 the user will do. """
