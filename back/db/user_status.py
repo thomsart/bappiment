@@ -25,8 +25,8 @@ STATUS = {
 
     "expert_accountant": {
         "level": '2',
-        "en-us": "expert_accountant",
-        "fr": "expert_comptable"
+        "en-us": "expert accountant",
+        "fr": "expert comptable"
     },
 
     "accountant": {
@@ -44,7 +44,7 @@ STATUS = {
     "ingeneer": {
         "level": '2',
         "en-us": "ingeneer",
-        "fr": "ingenieur"
+        "fr": "ingénieur"
     },
 
     "architect": {
@@ -55,8 +55,8 @@ STATUS = {
 
     "industrial_designer": {
         "level": '2',
-        "en-us": "industrial_designer",
-        "fr": "dessinateur_industriel"
+        "en-us": "industrial designer",
+        "fr": "déssinateur industriel"
     },
 
     "surveyor": {
@@ -67,8 +67,8 @@ STATUS = {
 
     "technical_commercial": {
         "level": '2',
-        "en-us": "technical_commercial",
-        "fr": "technico_commerciale"
+        "en-us": "technical commercial",
+        "fr": "technico commerciale"
     },
 
     "commercial": {
@@ -79,20 +79,20 @@ STATUS = {
 
     "repair_operator": {
         "level": '2',
-        "en-us": "repair_operator",
-        "fr": "chef_sav"
+        "en-us": "repair operator",
+        "fr": "chef sav"
     },
 
     "foreman": {
         "level": '2',
         "en-us": "foreman",
-        "fr": "contremaitre"
+        "fr": "contremaître"
     },
 
     "clerk_of_works": {
         "level": '2',
-        "en-us": "clerk_of_works",
-        "fr": "conducteur_des_travaux"
+        "en-us": "clerk of works",
+        "fr": "conducteur des travaux"
     },
 
     ##### niveau 3 ############################################################
@@ -101,26 +101,26 @@ STATUS = {
 
     "receptionst": {
         "level": '3',
-        "en-us": "receptionst",
+        "en-us": "receptionist",
         "fr": "standardiste"
     },
 
     "stock_operator": {
         "level": '3',
-        "en-us": "stock_operator",
-        "fr": "chef_atelier"
+        "en-us": "stock operator",
+        "fr": "chef atelier"
     },
 
     "electrotechnician": {
         "level": '3',
         "en-us": "electrotechnician",
-        "fr": "electrotechnicien"
+        "fr": "électrotechnicien"
     },
 
     "electrician": {
         "level": '3',
         "en-us": "electrician",
-        "fr": "electricien"
+        "fr": "électricien"
     },
 
     "installer": {
@@ -131,20 +131,20 @@ STATUS = {
 
     "heating_engineer": {
         "level": '3',
-        "en-us": "heating_engineer",
+        "en-us": "heating engineer",
         "fr": "chauffagiste"
     },
 
     "repairman": {
         "level": '3',
         "en-us": "repairman",
-        "fr": "depanneur"
+        "fr": "dépanneur"
     },
 
     "maintenance_agent": {
         "level": '3',
-        "en-us": "maintenance_agent",
-        "fr": "agent_de_maintenance"
+        "en-us": "maintenance agent",
+        "fr": "agent de maintenance"
     },
 
     "plumber": {
@@ -162,7 +162,7 @@ STATUS = {
     "locksmith": {
         "level": '3',
         "en-us": "locksmith",
-        "fr": "serrurier"
+        "fr": "sérrurier"
     },
 
     "mason": {
@@ -185,8 +185,8 @@ STATUS = {
 
     "skilled_craftsmen": {
         "level": '3',
-        "en-us": "skilled_craftsmen",
-        "fr": "ebeniste"
+        "en-us": "skilled craftsmen",
+        "fr": "ébeniste"
     },
 
     "marqueter": {
@@ -197,19 +197,19 @@ STATUS = {
 
     "forklift_operator": {
         "level": '3',
-        "en-us": "forklift_operator",
+        "en-us": "forklift operator",
         "fr": "carriste"
     },
 
     "machinery_driver": {
         "level": '3',
-        "en-us": "machinery_driver",
-        "fr": "conducteur_engins_de_tp"
+        "en-us": "machinery driver",
+        "fr": "conducteur engins tp"
     },
 
     "drywall_guy": {
         "level": '3',
-        "en-us": "drywall_guy",
+        "en-us": "drywall guy",
         "fr": "plaquiste"
     },
 
@@ -225,18 +225,6 @@ STATUS = {
         "fr": "peintre"
     },
 
-    "tailor": {
-        "level": '3',
-        "en-us": "tailor",
-        "fr": "couturier"
-    },
-
-    "leather_craftsman": {
-        "level": '3',
-        "en-us": "leather_craftsman",
-        "fr": "maroquinier"
-    },
-
     "deliveryman": {
         "level": '3',
         "en-us": "deliveryman",
@@ -246,7 +234,7 @@ STATUS = {
     "cleaner": {
         "level": '3',
         "en-us": "cleaner",
-        "fr": "agent_entretien"
+        "fr": "agent entretien"
     },
 
     ##### niveau 4 ############################################################
@@ -262,7 +250,7 @@ STATUS = {
     "fellow": {
         "level": '4',
         "en-us": "fellow",
-        "fr": "stagiere"
+        "fr": "stagière"
     },
 
     ##### niveau 5 ############################################################

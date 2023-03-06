@@ -19,7 +19,7 @@ class InstallationState(models.Model):
     state = models.CharField(max_length=30, unique=True)
 
 
-class StockState(models.Model):
+class ProductState(models.Model):
 
     state = models.CharField(max_length=30, unique=True)
 
@@ -36,8 +36,8 @@ class Event(models.Model):
     user_state = models.ForeignKey(UserState, models.SET_NULL, blank=True, null=True)
     installation = models.ForeignKey(Installation, models.SET_NULL, blank=True, null=True)
     installation_state = models.ForeignKey(InstallationState, models.SET_NULL, blank=True, null=True)
-    stock = models.ForeignKey(Stock, models.SET_NULL, blank=True, null=True)
-    stock_state = models.ForeignKey(StockState, models.SET_NULL, blank=True, null=True)
+    product = models.ForeignKey(Stock, models.SET_NULL, blank=True, null=True)
+    product_state = models.ForeignKey(ProductState, models.SET_NULL, blank=True, null=True)
     vehicle = models.ForeignKey(Vehicle, models.SET_NULL, blank=True, null=True)
     vehicle_state = models.ForeignKey(VehicleState, models.SET_NULL, blank=True, null=True)
     note = models.CharField(max_length=200, blank=True, default="")
@@ -59,64 +59,3 @@ class WorkSheet(models.Model):
     note = models.TextField(max_length=200, blank=True, default="")
 
     # eviter que executed_job et maintenance soient tout les deux ""
-
-
-user_state = [
-    "en chantier",
-    "en déplacement chantier",
-    "en dépannage",
-    "en déplacement dépannage",
-    "en maintenance",
-    "en déplacement maintenance",
-    "en livraison",
-    "en congé",
-    "en arrêt maladie",
-    "en accident de travail",
-    "en retard",
-    "absent",
-    "en réunion",
-    "en rdv",
-    "bbq",
-]
-
-installation_state = [
-    "en retard",
-    "en chantier",
-    "en panne",
-    "maintenance à faire",
-    "en attente paiement",
-    "en service",
-    "avarie",
-]
-
-product_family = [
-    "bureautique",
-    "epi",
-    "outillage",
-    "électroportatif",
-    "électricité",
-    "électronique",
-    "sécurité",
-    "mécanique",
-    "pneumatique",
-    "entretien",
-    "maçonnerie",
-    "peinture",
-    "métalurgie",
-    "quincallerie",
-    "consommable",
-]
-
-product_state = [
-    "bientôt en rupture",
-    "à commander",
-    "en rupture",
-    "hs",
-]
-
-vehicle_state = [
-    "contôle technique",
-    "révision",
-    "en panne",
-    "accident",
-]
