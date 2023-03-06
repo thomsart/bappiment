@@ -13,7 +13,7 @@ class StatusSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-########### USER ##############################################################
+########### USER #########################################################
 
 
 class LightUserSerializer(serializers.ModelSerializer):
@@ -43,7 +43,7 @@ class CreateUserSerializer(serializers.Serializer):
         return LightUserSerializer(user)
 
 
-########### MEMBERSHIP ##############################################################
+########### MEMBERSHIP ###################################################
 
 
 class MembershipSerializer(serializers.ModelSerializer):
@@ -59,7 +59,7 @@ class CreateMembershipSerializer(serializers.Serializer):
     status = StatusSerializer()
 
     def to_internal_value(self, data):
-        
+
         user = data.get('user')
         status = data.get('status')
 
@@ -80,16 +80,8 @@ class CreateMembershipSerializer(serializers.Serializer):
             'status': Status.objects.get(id=status["id"])
         }
 
-    # def to_representation(self, instance):
-    #     return {
-    #         'user': instance,
-    #         'status': instance
-    #     }
-
     def create(self, validated_data):
 
-        # user = User.objects.get(id=validated_data.user)
-        # status = Status.objects.get(id=validated_data["status"]["id"])
         membership = Membership.objects.create(**validated_data)
         membership.save()
 

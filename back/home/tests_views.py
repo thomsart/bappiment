@@ -1,8 +1,13 @@
 from .tests_datas import HomeAPITestCase
 from .serializers import (
     LightUserSerializer, HeavyUserSerializer, CreateUserSerializer,
-    UserStatusSerializer, MembershipSerializer,
+    StatusSerializer, MembershipSerializer,
 )
+
+
+########## UserListViews ######################################################
+########## UserListViews ######################################################
+########## UserListViews ######################################################
 
 
 class TestUserListViews(HomeAPITestCase):
@@ -18,10 +23,11 @@ class TestUserListViews(HomeAPITestCase):
 
 
     def test_IsAuthenticated(self):
+        """ We test the Authentication. """
 
         # When user is not authenticated
         reponse = self.con_user.get(self.url_user_list)
-        self.assertEqual(reponse.status_code, 400)
+        self.assertEqual(reponse.status_code, 403)
 
         # When user is authenticated
         self.con_user.force_authenticate(self.boss)
@@ -42,7 +48,7 @@ class TestUserListViews(HomeAPITestCase):
         self.con_user.force_authenticate(self.user_not_active)
         reponse = self.con_user.get(self.url_user_list)
 
-        self.assertEqual(reponse.status_code, 200)
+        self.assertEqual(reponse.status_code, 403)
 
 
     def test_IsNotClient(self):
@@ -57,7 +63,6 @@ class TestUserListViews(HomeAPITestCase):
 
         # tester toutes les methode en fonction des users
         # tester le post quand il marche et quand il marche pas
-
         self.con_user.force_authenticate(self.user_not_active)
         reponse = self.con_user.get(self.url_user_list)
 
@@ -93,3 +98,8 @@ class TestUserListViews(HomeAPITestCase):
         ]
 
         self.assertEqual(reponse.json(), expected)
+
+
+########## UserDetailViews ####################################################
+########## UserDetailViews ####################################################
+########## UserDetailViews ####################################################

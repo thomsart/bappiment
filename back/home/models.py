@@ -24,6 +24,7 @@ class Status(models.Model):
     def __str__(self):
         return self.name
 
+
 class Membership(models.Model):
 
     date = models.DateField(auto_now=True)
@@ -33,49 +34,3 @@ class Membership(models.Model):
     class Meta:
         ordering = ['user', '-date']
         unique_together = [['user', 'status']]
-
-status = [
-    ######## Level 1 #################
-    'boss', # patron
-    # 'actionnaire', # ?
-    'accountant', # comptable
-    'hr', # rh
-    # 'expert comptable', # expert accountant
-    # 'ingénieur', # ? ingeneer
-    # 'architecte', # ?
-    # 'dessinateur industriel', # ?
-    # 'géomètre', # ?
-    # 'géomètre topographe', # ?
-    'commercial', # commerciale
-    # 'technico commercial', # commercial technician
-    'repair operator', # chef sav
-    # 'contremaître', # ?
-    # 'conducteur des travaux', # site operator
-    ######## Level 2 #################
-    'receptionist', # standardiste
-    'stock operator', #  chef atelier
-    'electrotechnician', # electrotechnicien
-    # 'electricien', # electrician
-    # 'plombier', # ?
-    # 'chauffagiste', # ?
-    'repairman', # dépanneur
-    'coppersmith', # chaudronnier
-    'locksmith', # sérrurier
-    'mason', # maçon
-    # 'charpentier', # ?
-    # 'menuisier', # ?
-    # 'ébeniste', # ?
-    # 'marquetier', # ?
-    # 'carriste', # ?
-    # 'conducteur engins de tp', # ?
-    # 'plaquiste', # ?
-    # 'carreleur', # ?
-    # 'peintre', # ?
-    'postman', # livreur
-    'installer', # installateur
-    'maintenance agent', # agent de maintenance
-    # 'apprentis', # apprentices
-    # 'stagière', # ?
-    # 'fournisseur', # supplier
-    'client',
-]
