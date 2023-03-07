@@ -40,7 +40,7 @@ class CreateUserSerializer(serializers.Serializer):
         user = User.objects.create(
             username=validated_data["email"] ,**validated_data
         )
-        return LightUserSerializer(user)
+        return user
 
 
 ########### MEMBERSHIP ###################################################
@@ -84,6 +84,11 @@ class CreateMembershipSerializer(serializers.Serializer):
 
         membership = Membership.objects.create(**validated_data)
         membership.save()
+
+        user = validated_data['user']
+        status = validated_data['status']
+        if int(user.hightest_level) < int(status.level):
+            user.hightest_level = status.level
 
         return MembershipSerializer(membership)
 

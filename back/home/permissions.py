@@ -1,8 +1,10 @@
 from rest_framework import permissions
-from rest_framework.response import Response
-from rest_framework import status
 
-from .models import User, Status, Membership
+from .models import Status, Membership
+from .db import LANGUAGE
+from .db.datas.user_status import STATUS
+
+
 
 ###############################################################################
 ############################ Internal user ####################################
@@ -10,16 +12,14 @@ from .models import User, Status, Membership
 
 
 class IsActive(permissions.BasePermission):
-    """ This permission just check if the user is a permanent employee
-    to avoid that an fixed-term contract user messed up in the 
-    application. """
+    """ This permission just check if the user is active. """
 
     def has_permission(self, request, view):
 
-        if request.user.is_active:
+        if request.user.is_active == True:
             return True
         else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"detail": "You are deactivate"})
+            return False
 
 
 class IsPermanentEmployee(permissions.BasePermission):
@@ -29,184 +29,148 @@ class IsPermanentEmployee(permissions.BasePermission):
 
     def has_permission(self, request, view):
 
-        if request.user.permanent_contract:
+        if request.user.permanent_contract == True:
             return True
         else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"detail": "You are not permanent employee"})
-
-
-#################################################
-#                 Office user                   #
-#################################################
+            return False
 
 
 class IsBoss(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        
-        boss_status = Status.objects.get(name="boss")
-        if Membership.objects.get(user=request.user.id, status=boss_status.id) or request.user.is_superuser:
+
+        boss = Status.objects.get(name=STATUS['boss'][LANGUAGE])
+
+        if Membership.objects.exists(user=request.user.id, status=boss.pk) \
+        or request.user.is_superuser:
             return True
         else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"detail": "Your are not the Boss"})
+            return False
 
 class IsAccountant(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        accountant_status = Status.objects.get(name="accountant")
-        if Membership.objects.get(user=request.user.id, status=accountant_status.id):
-            return True
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"detail": "You are not an Accountant"})
+        accountant = Status.objects.get(name=STATUS['accountant'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=accountant.pk)
 
 
 class IsHr(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        hr_status = Status.objects.get(name="hr")
-        if Membership.objects.get(user=request.user.id, status=hr_status.id):
-            return True
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"detail": "you are  not a Hr"})
+        hr = Status.objects.get(name=STATUS['hr'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=hr.pk)
 
 
 class IsCommercial(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        commercial_status = Status.objects.get(name="commercial")
-        if Membership.objects.get(user=request.user.id, status=commercial_status.id):
-            return True
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"detail": "You are not a Commercial"})
+        commercial = Status.objects.get(name=STATUS['commercial'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=commercial.pk)
 
 
 class IsRepairOperator(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        repair_operator_status = Status.objects.get(name="repair_operator")
-        if Membership.objects.get(user=request.user.id, status=repair_operator_status.id):
-            return True
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"detail": "You are not a Repair Operator"})
+        repair_operator = Status.objects.get(name=STATUS['repair_operator'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=repair_operator.pk)
 
 
 class IsStockOperator(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        stock_operator_status = Status.objects.get(name="stock_operator")
-        if Membership.objects.get(user=request.user.id, status=stock_operator_status.id):
-            return True
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"detail": "You are not a Stock Operator"})
+        stock_operator = Status.objects.get(name=STATUS['stock_operator'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=stock_operator.pk)
 
 
 class IsReceptionist(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        receptionist_status = Status.objects.get(name="receptionist")
-        if Membership.objects.get(user=request.user.id, status=receptionist_status.id):
-            return True
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"detail": "You are not a Receptionist"})
+        receptionist = Status.objects.get(name=STATUS['receptionist'][LANGUAGE])
 
-
-#################################################
-#                On the spot user               #
-#################################################
+        return Membership.objects.exists(user=request.user.id, status=receptionist.pk)
 
 
 class IsInstaller(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        installer_status = Status.objects.get(name="installer")
-        if Membership.objects.get(user=request.user.id, status=installer_status.id):
-            return True
-        else:
-            return False
+        installer = Status.objects.get(name=STATUS['installer'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=installer.pk)
 
 
 class IsElectrotechnician(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        electrotechnician_status = Status.objects.get(name="electrotechnician")
-        if Membership.objects.get(user=request.user.id, status=electrotechnician_status.id):
-            return True
-        else:
-            return False
+        electrotechnician = Status.objects.get(name=STATUS['electrotechnician'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=electrotechnician.pk)
 
 
 class IsCoppersmith(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        coppersmith_status = Status.objects.get(name="coppersmith")
-        if Membership.objects.get(user=request.user.id, status=coppersmith_status.id):
-            return True
-        else:
-            return False
+        coppersmith = Status.objects.get(name=STATUS['coppersmith'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=coppersmith.pk)
 
 
 class IsLocksmith(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        locksmith_status = Status.objects.get(name="locksmith")
-        if Membership.objects.get(user=request.user.id, status=locksmith_status.id):
-            return True
-        else:
-            return False
+        locksmith = Status.objects.get(name=STATUS['locksmith'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=locksmith.pk)
 
 
 class IsMason(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        mason_status = Status.objects.get(name="mason")
-        if Membership.objects.get(user=request.user.id, status=mason_status.id):
-            return True
-        else:
-            return False
+        mason = Status.objects.get(name=STATUS['mason'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=mason.pk)
 
 
 class IsRepairman(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        repairman_status = Status.objects.get(name="repairman")
-        if Membership.objects.get(user=request.user.id, status=repairman_status.id):
-            return True
-        else:
-            return False
+        repairman = Status.objects.get(name=STATUS['repairman'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=repairman.pk)
 
 
 class IsMaintenanceAgent(permissions.BasePermission):
     
     def has_permission(self, request, view):
 
-        maintenance_agent_status = Status.objects.get(name="maintenance_agent")
-        if Membership.objects.get(user=request.user.id, status=maintenance_agent_status.id):
-            return True
-        else:
-            return False
+        maintenance_agent = Status.objects.get(name=STATUS['maintenance_agent'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=maintenance_agent.pk)
 
 
-class IsPostman(permissions.BasePermission):
-    
+class IsDeliveryman(permissions.BasePermission):
+
     def has_permission(self, request, view):
 
-        postman_status = Status.objects.get(name="postman")
-        if Membership.objects.get(user=request.user.id, status=postman_status.id):
-            return True
-        else:
-            return False
+        deliveryman = Status.objects.get(name=STATUS['deliveryman'][LANGUAGE])
+
+        return Membership.objects.exists(user=request.user.id, status=deliveryman.pk)
 
 
 ###############################################################################
@@ -218,25 +182,18 @@ class IsClient(permissions.BasePermission):
 
     def has_permission(self, request, view):
 
-        client_status = Status.objects.get(name="client")
-        try:
-            Membership.objects.get(user_id=request.user.id, status_id=client_status.id)
-            return True
+        client = Status.objects.get(name=STATUS['client'][LANGUAGE])
 
-        except Membership.DoesNotExist:
-            return False
+        return Membership.objects.exists(user_id=request.user.id, status_id=client.pk)
+
 
 class IsNotClient(permissions.BasePermission):
 
     def has_permission(self, request, view):
 
-        client_status = Status.objects.get(name="client")
-        try:
-            Membership.objects.get(user_id=request.user.id, status_id=client_status.id)
-            return False
+        client = Status.objects.get(name=STATUS['client'][LANGUAGE])
 
-        except Membership.DoesNotExist:
-            return True
+        return not(Membership.objects.exists(user=request.user.id, status=client.pk))
 
 
 ###############################################################################
@@ -251,11 +208,17 @@ class IsActionAllowed(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
-        if request.user.is_superuser or request.user.status == 'boss' or request.method == 'GET':
+        boss = Status.objects.get(name=STATUS['boss'][LANGUAGE])
+        accountant = Status.objects.get(name=STATUS['accountant'][LANGUAGE])
+
+        if request.user.is_superuser \
+            or Membership.objects.exists(user=request.user.id, status=boss.pk) \
+            or request.method == 'GET':
             return True
 
-        elif request.method == 'PUT' and request.user.status == "accountant":
+        elif request.method == 'PUT' \
+            and Membership.objects.exists(user=request.user.id, status=accountant.pk):
             return True
 
         else:
-            return  False
+            return False

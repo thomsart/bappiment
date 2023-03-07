@@ -10,6 +10,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=15)
     days_off = models.PositiveSmallIntegerField(default=0)
     days_off_cumul = models.PositiveSmallIntegerField(default=0)
+    hightest_level = models.CharField(max_length=1, default="0")
     permanent_contract = models.BooleanField(default=True)
 
     def __str__(self):

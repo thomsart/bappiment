@@ -10,14 +10,7 @@ from .serializers import (
     LightUserSerializer, HeavyUserSerializer, CreateUserSerializer,
     MembershipSerializer, CreateMembershipSerializer
 )
-from .permissions import (
-    IsActive, IsPermanentEmployee, 
-    IsBoss, IsAccountant, IsHr, IsCommercial, IsRepairOperator, 
-    IsReceptionist, IsStockOperator, 
-    IsInstaller, IsElectrotechnician, IsCoppersmith, IsLocksmith, IsMason, IsRepairman, IsMaintenanceAgent, IsPostman, 
-    IsClient, IsNotClient, 
-    IsActionAllowed,
-)
+from .permissions import IsActive, IsNotClient,  IsActionAllowed
 
 
 ########################## STATUS #############################################
@@ -27,20 +20,18 @@ from .permissions import (
 
 class StatusList(APIView):
     """
-    List all users status.
+    List all status.
     """
 
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
-        IsPermanentEmployee,
         IsNotClient,
     ]
 
     def get(self, request, format=None):
 
         status = Status.objects.all()
-        # en fonction du status du user on utilisera Light ou Heavy
         serializer = StatusSerializer(status, many=True)
 
         return Response(serializer.data)
@@ -59,19 +50,21 @@ class UserList(APIView):
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
-        IsPermanentEmployee,
         IsNotClient,
         IsActionAllowed,
     ]
 
     def get(self, request, format=None):
 
-        users = User.objects.all().order_by('date_joined')
-        # en fonction du status du user on utilisera Light ou Heavy
+        users = User.objects.filter(is_superuser=False, is_staff=False, is_active=True)
 
-        serializer = LightUserSerializer(users, many=True)
+        if int(request.user.hightest_level) >= 4:
+            serializer = HeavyUserSerializer(users, many=True)
+        else:
+            serializer = LightUserSerializer(users, many=True)
 
         return Response(serializer.data)
+
 
     def post(self, request, format=None):
 
@@ -79,7 +72,7 @@ class UserList(APIView):
         if serializer.is_valid():
             serializer.save()
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -92,7 +85,6 @@ class UserDetail(APIView):
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
-        IsPermanentEmployee,
         IsNotClient,
         IsActionAllowed,
     ]
@@ -104,13 +96,18 @@ class UserDetail(APIView):
         except User.DoesNotExist:
             raise Http404
 
+
     def get(self, request, pk, format=None):
 
         user = self.get_object(pk)
-        # en fonction du status du user on utilisera Light ou Heavy
-        serializer = HeavyUserSerializer(user)
+
+        if int(request.user.hightest_level) >= 3:
+            serializer = HeavyUserSerializer(user)
+        else:
+            serializer = LightUserSerializer(user)
 
         return Response(serializer.data)
+
 
     def put(self, request, pk, format=None):
 
@@ -122,6 +119,7 @@ class UserDetail(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     def delete(self, request, pk, format=None):
 
@@ -145,7 +143,6 @@ class MembershipList(APIView):
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
-        IsPermanentEmployee,
         IsNotClient,
         IsActionAllowed,
     ]
@@ -159,9 +156,11 @@ class MembershipList(APIView):
 
         return Response(serializer.data)
 
+
     def post(self, request, format=None):
 
         serializer = CreateMembershipSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
 
@@ -178,7 +177,6 @@ class MembershipDetail(APIView):
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
-        IsPermanentEmployee,
         IsNotClient,
         IsActionAllowed,
     ]
@@ -189,6 +187,7 @@ class MembershipDetail(APIView):
             return Membership.objects.get(id=pk)
         except Membership.DoesNotExist:
             raise Http404
+
 
     def delete(self, request, pk, format=None):
 

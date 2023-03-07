@@ -3,94 +3,94 @@
 
 STATUS = {
 
-    ##### niveau 1 ############################################################
-    ##### niveau 1 ############################################################
-    ##### niveau 1 ############################################################
+    ##### niveau 5 ############################################################
+    ##### niveau 5 ############################################################
+    ##### niveau 5 ############################################################
 
     "boss": {
-        "level": '1',
+        "level": '5',
         "en-us": "boss",
         "fr": "patron"
     },
 
-    ##### niveau 2 ############################################################
-    ##### niveau 2 ############################################################
-    ##### niveau 2 ############################################################
+    ##### niveau 4 ############################################################
+    ##### niveau 4 ############################################################
+    ##### niveau 4 ############################################################
 
     "shareholder": {
-        "level": '2',
+        "level": '4',
         "en-us": "shareholder",
         "fr": "actionnaire"
     },
 
     "expert_accountant": {
-        "level": '2',
+        "level": '4',
         "en-us": "expert accountant",
         "fr": "expert comptable"
     },
 
     "accountant": {
-        "level": '2',
+        "level": '4',
         "en-us": "accountant",
         "fr": "comptable"
     },
 
     "hr": {
-        "level": '2',
+        "level": '4',
         "en-us": "hr",
         "fr": "rh"
     },
 
     "ingeneer": {
-        "level": '2',
+        "level": '4',
         "en-us": "ingeneer",
         "fr": "ingénieur"
     },
 
     "architect": {
-        "level": '2',
+        "level": '4',
         "en-us": "architect",
         "fr": "architecte"
     },
 
     "industrial_designer": {
-        "level": '2',
+        "level": '4',
         "en-us": "industrial designer",
         "fr": "déssinateur industriel"
     },
 
     "surveyor": {
-        "level": '2',
+        "level": '4',
         "en-us": "surveyor",
         "fr": "géomètre"
     },
 
     "technical_commercial": {
-        "level": '2',
+        "level": '4',
         "en-us": "technical commercial",
         "fr": "technico commerciale"
     },
 
     "commercial": {
-        "level": '2',
+        "level": '4',
         "en-us": "commercial",
         "fr": "commerciale"
     },
 
     "repair_operator": {
-        "level": '2',
+        "level": '4',
         "en-us": "repair operator",
         "fr": "chef sav"
     },
 
     "foreman": {
-        "level": '2',
+        "level": '4',
         "en-us": "foreman",
         "fr": "contremaître"
     },
 
     "clerk_of_works": {
-        "level": '2',
+        "level": '4',
         "en-us": "clerk of works",
         "fr": "conducteur des travaux"
     },
@@ -99,7 +99,7 @@ STATUS = {
     ##### niveau 3 ############################################################
     ##### niveau 3 ############################################################
 
-    "receptionst": {
+    "receptionist": {
         "level": '3',
         "en-us": "receptionist",
         "fr": "standardiste"
@@ -239,32 +239,32 @@ STATUS = {
 
     ##### niveau 4 ############################################################
     ##### niveau 4 ############################################################
-    ##### niveau 4 ############################################################
+    ##### niveau 2 ############################################################
 
     "apprentice": {
-        "level": '4',
+        "level": '2',
         "en-us": "apprentice",
         "fr": "apprentis"
     },
 
     "fellow": {
-        "level": '4',
+        "level": '2',
         "en-us": "fellow",
         "fr": "stagière"
     },
 
-    ##### niveau 5 ############################################################
-    ##### niveau 5 ############################################################
-    ##### niveau 5 ############################################################
+    ##### niveau 1 ############################################################
+    ##### niveau 1 ############################################################
+    ##### niveau 1 ############################################################
 
     "supplier": {
-        "level": '5',
+        "level": '1',
         "en-us": "supplier",
         "fr": "fournisseur"
     },
 
     "client": {
-        "level": '5',
+        "level": '1',
         "en-us": "client",
         "fr": "client"
     },
