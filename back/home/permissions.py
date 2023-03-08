@@ -47,6 +47,7 @@ class IsBoss(permissions.BasePermission):
         else:
             return False
 
+
 class IsAccountant(permissions.BasePermission):
     
     def has_permission(self, request, view):
@@ -62,7 +63,7 @@ class IsHr(permissions.BasePermission):
 
         hr = Status.objects.get(name=STATUS['hr'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=hr.pk)
+        return Membership.objects.filter(user=request.user.id, status=hr.pk).exists()
 
 
 class IsCommercial(permissions.BasePermission):
@@ -71,7 +72,7 @@ class IsCommercial(permissions.BasePermission):
 
         commercial = Status.objects.get(name=STATUS['commercial'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=commercial.pk)
+        return Membership.objects.filter(user=request.user.id, status=commercial.pk).exists()
 
 
 class IsRepairOperator(permissions.BasePermission):
@@ -80,7 +81,7 @@ class IsRepairOperator(permissions.BasePermission):
 
         repair_operator = Status.objects.get(name=STATUS['repair_operator'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=repair_operator.pk)
+        return Membership.objects.filter(user=request.user.id, status=repair_operator.pk).exists()
 
 
 class IsStockOperator(permissions.BasePermission):
@@ -89,7 +90,7 @@ class IsStockOperator(permissions.BasePermission):
 
         stock_operator = Status.objects.get(name=STATUS['stock_operator'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=stock_operator.pk)
+        return Membership.objects.filter(user=request.user.id, status=stock_operator.pk).exists()
 
 
 class IsReceptionist(permissions.BasePermission):
@@ -98,7 +99,7 @@ class IsReceptionist(permissions.BasePermission):
 
         receptionist = Status.objects.get(name=STATUS['receptionist'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=receptionist.pk)
+        return Membership.objects.filter(user=request.user.id, status=receptionist.pk).exists()
 
 
 class IsInstaller(permissions.BasePermission):
@@ -107,7 +108,7 @@ class IsInstaller(permissions.BasePermission):
 
         installer = Status.objects.get(name=STATUS['installer'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=installer.pk)
+        return Membership.objects.filter(user=request.user.id, status=installer.pk).exists()
 
 
 class IsElectrotechnician(permissions.BasePermission):
@@ -116,7 +117,7 @@ class IsElectrotechnician(permissions.BasePermission):
 
         electrotechnician = Status.objects.get(name=STATUS['electrotechnician'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=electrotechnician.pk)
+        return Membership.objects.filter(user=request.user.id, status=electrotechnician.pk).exists()
 
 
 class IsCoppersmith(permissions.BasePermission):
@@ -125,7 +126,7 @@ class IsCoppersmith(permissions.BasePermission):
 
         coppersmith = Status.objects.get(name=STATUS['coppersmith'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=coppersmith.pk)
+        return Membership.objects.filter(user=request.user.id, status=coppersmith.pk).exists()
 
 
 class IsLocksmith(permissions.BasePermission):
@@ -134,7 +135,7 @@ class IsLocksmith(permissions.BasePermission):
 
         locksmith = Status.objects.get(name=STATUS['locksmith'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=locksmith.pk)
+        return Membership.objects.filter(user=request.user.id, status=locksmith.pk).exists()
 
 
 class IsMason(permissions.BasePermission):
@@ -143,7 +144,7 @@ class IsMason(permissions.BasePermission):
 
         mason = Status.objects.get(name=STATUS['mason'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=mason.pk)
+        return Membership.objects.filter(user=request.user.id, status=mason.pk).exists()
 
 
 class IsRepairman(permissions.BasePermission):
@@ -152,7 +153,7 @@ class IsRepairman(permissions.BasePermission):
 
         repairman = Status.objects.get(name=STATUS['repairman'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=repairman.pk)
+        return Membership.objects.filter(user=request.user.id, status=repairman.pk).exists()
 
 
 class IsMaintenanceAgent(permissions.BasePermission):
@@ -161,7 +162,7 @@ class IsMaintenanceAgent(permissions.BasePermission):
 
         maintenance_agent = Status.objects.get(name=STATUS['maintenance_agent'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=maintenance_agent.pk)
+        return Membership.objects.filter(user=request.user.id, status=maintenance_agent.pk).exists()
 
 
 class IsDeliveryman(permissions.BasePermission):
@@ -170,7 +171,11 @@ class IsDeliveryman(permissions.BasePermission):
 
         deliveryman = Status.objects.get(name=STATUS['deliveryman'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=deliveryman.pk)
+        return Membership.objects.filter(user=request.user.id, status=deliveryman.pk).exists()
+
+
+
+
 
 
 ###############################################################################
@@ -184,7 +189,7 @@ class IsClient(permissions.BasePermission):
 
         client = Status.objects.get(name=STATUS['client'][LANGUAGE])
 
-        return Membership.objects.exists(user_id=request.user.id, status_id=client.pk)
+        return Membership.objects.filter(user_id=request.user.id, status_id=client.pk).exists()
 
 
 class IsNotClient(permissions.BasePermission):
@@ -193,7 +198,11 @@ class IsNotClient(permissions.BasePermission):
 
         client = Status.objects.get(name=STATUS['client'][LANGUAGE])
 
-        return not(Membership.objects.exists(user=request.user.id, status=client.pk))
+        return not(Membership.objects.filter(user=request.user.id, status=client.pk).exists())
+
+
+
+
 
 
 ###############################################################################
@@ -201,7 +210,23 @@ class IsNotClient(permissions.BasePermission):
 ###############################################################################
 
 
-class IsActionAllowed(permissions.BasePermission):
+class IsPostUserAllowed(permissions.BasePermission):
+    
+    def has_permission(self, request, view):
+
+        boss = Status.objects.get(name=STATUS['boss'][LANGUAGE])
+
+        if request.method == 'POST':
+            if Membership.objects.filter(user=request.user.id, status=boss.pk).exists() \
+                or request.user.is_superuser:
+                    return True
+            else:
+                return False
+        else:
+            return True
+
+
+class IsGetPutDeleteUserAllowed(permissions.BasePermission):
     """ This permission check for the post, put and delete actions if the 
     user is allowed to process it in considering his status and the concerned 
     datas. """
@@ -212,12 +237,12 @@ class IsActionAllowed(permissions.BasePermission):
         accountant = Status.objects.get(name=STATUS['accountant'][LANGUAGE])
 
         if request.user.is_superuser \
-            or Membership.objects.exists(user=request.user.id, status=boss.pk) \
+            or Membership.objects.filter(user_id=request.user.id, status_id=boss.pk).exists() \
             or request.method == 'GET':
             return True
 
         elif request.method == 'PUT' \
-            and Membership.objects.exists(user=request.user.id, status=accountant.pk):
+            and Membership.objects.filter(user_id=request.user.id, status_id=accountant.pk).exists():
             return True
 
         else:

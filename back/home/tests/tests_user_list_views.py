@@ -1,7 +1,4 @@
-import json
-
 from .tests_datas import DatasAPITestCase
-from ..serializers import CreateUserSerializer
 from ..models import User
 
 
@@ -172,13 +169,44 @@ class TestUserListViews(DatasAPITestCase):
 
         response = self.con_user.post(self.url_users_list, data=datas)
 
+        self.assertEqual(response.status_code, 403)
+
+
+    def test_PostUserWithMissedDatas(self):
+        """ We make sure that creation of a user with missed datas
+        is not possible. """
+
+        self.con_user.force_authenticate(self.user_boss)
+
+        datas = {
+            'first_name': "Dimebag",
+            'last_name': "Darell",
+            'email': "pantera@gmail.com",
+            'phone': "0646865234",
+            'password': "vulgardisplay7745+",
+        }
+
+        no_first_name = datas.copy()
+        del no_first_name['first_name']
+        response = self.con_user.post(self.url_users_list, data=no_first_name)
         self.assertEqual(response.status_code, 400)
 
+        no_last_name = datas.copy()
+        del no_last_name['last_name']
+        response = self.con_user.post(self.url_users_list, data=no_last_name)
+        self.assertEqual(response.status_code, 400)
 
-    # def test_PostUserWithWrongDatas(self):
+        no_email = datas.copy()
+        del no_email['email']
+        response = self.con_user.post(self.url_users_list, data=no_email)
+        self.assertEqual(response.status_code, 400)
 
-    #     self.con_user.force_authenticate(self.user_boss)
+        no_phone = datas.copy()
+        del no_phone['phone']
+        response = self.con_user.post(self.url_users_list, data=no_phone)
+        self.assertEqual(response.status_code, 400)
 
-    #     response = self.con_user.post(self.url_users_lis, data="")
-
-    #     self.assertEqual(response.status_code, 400)
+        no_password = datas.copy()
+        del no_password['password']
+        response = self.con_user.post(self.url_users_list, data=no_password)
+        self.assertEqual(response.status_code, 400)

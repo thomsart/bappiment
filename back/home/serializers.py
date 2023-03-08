@@ -91,18 +91,3 @@ class CreateMembershipSerializer(serializers.Serializer):
             user.hightest_level = status.level
 
         return MembershipSerializer(membership)
-
-
-# {
-#     "user" : {
-#         "id": 1,
-#         "first_name": "thomas",
-#         "last_name": "cottenceau",
-#         "phone": "0646756938"
-#     },
-
-#     "status": {
-#         "id": 1,
-#         "name": "boss"
-#     }
-# }
