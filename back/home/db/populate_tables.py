@@ -10,6 +10,7 @@ from api.settings.local import DATABASES
 from . import LANGUAGE
 from datas.installation_states import INSTALLATION_STATES
 from datas.product_familys import PRODUCT_FAMILYS
+from datas.product_brands import PRODUCT_BRANDS
 from datas.product_states import PRODUCT_STATES
 from datas.user_states import USER_STATES
 from datas.user_status import STATUS
@@ -63,6 +64,10 @@ def main():
                 if key == LANGUAGE:
                     family += value
             sql_block += f"INSERT INTO product_productfamily (family) VALUES ('{family}');\n"
+
+        """ We populate the product_productbrand table: """
+        for brand in PRODUCT_BRANDS:
+            sql_block += f"INSERT INTO product_productbrand (brand) VALUES ('{brand}');\n"
 
         """ We populate the agenda_productstate table: """
         for dicts in PRODUCT_STATES.items():

@@ -4,9 +4,12 @@ from rest_framework.response import Response
 from django.http import Http404
 from rest_framework import status
 
-from ..models import User
+from ..models import User, Status, Membership
 from ..serializers import LightUserSerializer, HeavyUserSerializer, CreateUserSerializer
-from ..permissions import IsActive, IsNotClient,  IsPostUserAllowed, IsGetPutDeleteUserAllowed
+from ..permissions import IsActive, IsNotClient,  IsPostUserAllowed, IsAcessUserAllowed
+from ..db import LANGUAGE
+from ..db.datas.user_status import STATUS
+
 
 
 
@@ -45,6 +48,9 @@ class UserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
+
 class UserDetail(APIView):
     """
     Retrieve, update or delete(is_active=False) a user.
@@ -54,13 +60,19 @@ class UserDetail(APIView):
         permissions.IsAuthenticated,
         IsActive,
         IsNotClient,
-        IsGetPutDeleteUserAllowed,
+        IsAcessUserAllowed,
     ]
 
     def get_object(self, pk):
 
         try:
-            return User.objects.get(id=pk)
+            user = User.objects.get(id=pk)
+
+            if user.is_superuser:
+                raise Http404
+            else:
+                return user
+
         except User.DoesNotExist:
             raise Http404
 
@@ -69,7 +81,7 @@ class UserDetail(APIView):
 
         user = self.get_object(pk)
 
-        if int(request.user.hightest_level) >= 3:
+        if int(request.user.hightest_level) >= 4:
             serializer = HeavyUserSerializer(user)
         else:
             serializer = LightUserSerializer(user)
@@ -81,6 +93,7 @@ class UserDetail(APIView):
 
         user = self.get_object(pk)
         serializer = HeavyUserSerializer(user, data=request.data)
+
         if serializer.is_valid():
             serializer.save()
 
@@ -91,10 +104,17 @@ class UserDetail(APIView):
 
     def delete(self, request, pk, format=None):
 
-        user = self.get_object(pk)
-        user.is_active = False
-        user.save()
+        boss = Status.objects.get(name=STATUS['boss'][LANGUAGE])
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.user.is_superuser \
+            or Membership.objects.filter(
+                user=request.user.id, status=boss.pk
+            ).exists():
 
+            user = self.get_object(pk)
+            user.is_active = False
+            user.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)

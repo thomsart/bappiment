@@ -3,6 +3,10 @@ from rest_framework.test import APIClient
 from django.urls import reverse_lazy
 
 from ..models import User, Status, Membership
+from ..serializers import (
+    StatusSerializer, LightUserSerializer, HeavyUserSerializer,
+    CreateUserSerializer, MembershipSerializer, CreateMembershipSerializer
+)
 from ..db import LANGUAGE
 from ..db.datas.installation_states import INSTALLATION_STATES
 from ..db.datas.product_familys  import PRODUCT_FAMILYS
@@ -19,7 +23,9 @@ class DatasAPITestCase(APITestCase):
     def setUpTestData(cls):
         """ Creation of all users' types. """
 
-        # We create all status
+        ##################### We create all status ############################
+        ##################### We create all status ############################
+        ##################### We create all status ############################
 
         cls.status_boss = Status.objects.create(name=STATUS['boss'][LANGUAGE])
         cls.status_accountant = Status.objects.create(name=STATUS['accountant'][LANGUAGE])
@@ -36,10 +42,32 @@ class DatasAPITestCase(APITestCase):
         cls.status_deliveryman = Status.objects.create(name=STATUS['deliveryman'][LANGUAGE])
         cls.status_installer = Status.objects.create(name=STATUS['installer'][LANGUAGE])
         cls.status_maintenance_agent = Status.objects.create(name=STATUS['maintenance_agent'][LANGUAGE])
+        cls.status_apprentice = Status.objects.create(name=STATUS['apprentice'][LANGUAGE])
         cls.status_client = Status.objects.create(name=STATUS['client'][LANGUAGE])
         cls.status_supplier = Status.objects.create(name=STATUS['supplier'][LANGUAGE])
 
-        # We create normals user
+
+        ##################### We create all serializers #######################
+        ##################### We create all serializers #######################
+        ##################### We create all serializers #######################
+
+
+        cls.status_serializer = StatusSerializer()
+        cls.light_user_serializer = LightUserSerializer
+        cls.heavy_user_serializer = HeavyUserSerializer()
+        cls.create_user_serializer = CreateUserSerializer()
+        cls.membership_serializer = MembershipSerializer()
+        cls.create_membership_serializer = CreateMembershipSerializer()
+
+
+        ######################### We create all users #########################
+        ######################### We create all users #########################
+        ######################### We create all users #########################
+
+        cls.superuser = User.objects.create(
+            first_name="John", last_name="Doe", username="johndoe@gmail.com",
+            email="johndoe@gmail.com", phone="0606060606", password="tfuamy6574-+",
+            hightest_level="0", is_superuser=True)
 
         cls.user_boss = User.objects.create(
             first_name="Bernard", last_name="Delb", username="nanard@gmail.com",
@@ -146,6 +174,13 @@ class DatasAPITestCase(APITestCase):
         cls.membership_maintenance_agent = Membership.objects.create(
             user=cls.user_maintenance_agent, status=cls.status_maintenance_agent)
 
+        cls.user_apprentice = User.objects.create(
+            first_name="Julien", last_name="Malou", username="apprentice@gmail.com",
+            email="apprentice@gmail.com", phone="0645856912", password="noksvg5g5n/mars8-",
+            hightest_level="2")
+        cls.membership_apprentice = Membership.objects.create(
+            user=cls.user_apprentice, status=cls.status_apprentice)
+
         cls.user_client = User.objects.create(
             first_name="Mireille", last_name="Marçeau", username="mimimar@gmail.com",
             email="mimimar@gmail.com", phone="0645856912", password="mimi/mars8-",
@@ -161,11 +196,6 @@ class DatasAPITestCase(APITestCase):
             user=cls.user_supplier, status=cls.status_supplier)
 
         # specific user
-
-        cls.superuser = User.objects.create(
-            first_name="Thomas", last_name="Superuser", username="superuser@gmail.com",
-            email="superuser@gmail.com", phone="0648569745", password="mjdfrrfrrars9-",
-            is_superuser=True, hightest_level="0")
 
         cls.user_active = User.objects.create(
             first_name="Pierre", last_name="Active", username="active@gmail.com",
@@ -186,16 +216,13 @@ class DatasAPITestCase(APITestCase):
             permanent_contract=False)
 
 
+        ######################## We create all variables ######################
+        ######################## We create all variables ######################
+        ######################## We create all variables ######################
 
-
-
-
-
-
-        # variables for test
         cls.url_status_list = reverse_lazy('status-list')
         cls.url_users_list = reverse_lazy('users-list')
-        cls.url_user_detail = reverse_lazy('users-detail')
+        cls.url_users_detail = 'users-detail'
         cls.url_memberships_list = reverse_lazy('memberships-list')
-        cls.url_membership_detail = reverse_lazy('membership-detail')
+        cls.url_memberships_detail = 'memberships-list'
         cls.con_user = APIClient()

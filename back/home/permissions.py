@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-from .models import Status, Membership
+from .models import Status, User, Membership
 from .db import LANGUAGE
 from .db.datas.user_status import STATUS
 
@@ -41,7 +41,7 @@ class IsBoss(permissions.BasePermission):
 
         boss = Status.objects.get(name=STATUS['boss'][LANGUAGE])
 
-        if Membership.objects.exists(user=request.user.id, status=boss.pk) \
+        if Membership.objects.filter(user=request.user.id, status=boss.pk).exists() \
         or request.user.is_superuser:
             return True
         else:
@@ -54,7 +54,7 @@ class IsAccountant(permissions.BasePermission):
 
         accountant = Status.objects.get(name=STATUS['accountant'][LANGUAGE])
 
-        return Membership.objects.exists(user=request.user.id, status=accountant.pk)
+        return Membership.objects.filter(user=request.user.id, status=accountant.pk).exists()
 
 
 class IsHr(permissions.BasePermission):
@@ -189,7 +189,7 @@ class IsClient(permissions.BasePermission):
 
         client = Status.objects.get(name=STATUS['client'][LANGUAGE])
 
-        return Membership.objects.filter(user_id=request.user.id, status_id=client.pk).exists()
+        return Membership.objects.filter(user=request.user.id, status=client.pk).exists()
 
 
 class IsNotClient(permissions.BasePermission):
@@ -226,24 +226,15 @@ class IsPostUserAllowed(permissions.BasePermission):
             return True
 
 
-class IsGetPutDeleteUserAllowed(permissions.BasePermission):
-    """ This permission check for the post, put and delete actions if the 
-    user is allowed to process it in considering his status and the concerned 
-    datas. """
+class IsAcessUserAllowed(permissions.BasePermission):
+    """ This permission check for the right to retrieve a user in
+    considering the status of the user. """
 
     def has_object_permission(self, request, view, obj):
 
-        boss = Status.objects.get(name=STATUS['boss'][LANGUAGE])
-        accountant = Status.objects.get(name=STATUS['accountant'][LANGUAGE])
+        level = request.user.hightest_level
 
-        if request.user.is_superuser \
-            or Membership.objects.filter(user_id=request.user.id, status_id=boss.pk).exists() \
-            or request.method == 'GET':
+        if int(level) > 1 or request.user.is_superuser:
             return True
-
-        elif request.method == 'PUT' \
-            and Membership.objects.filter(user_id=request.user.id, status_id=accountant.pk).exists():
-            return True
-
         else:
             return False

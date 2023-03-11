@@ -32,11 +32,7 @@ class TestUserListViews(DatasAPITestCase):
 
 
     def test_IsNotClient(self):
-        """ We test the access with a none client user and a client one. """
-
-        self.con_user.force_authenticate(self.user_boss)
-        response = self.con_user.get(self.url_users_list)
-        self.assertEqual(response.status_code, 200)
+        """ We test the access with a client user. """
 
         self.con_user.force_authenticate(self.user_client)
         response = self.con_user.get(self.url_users_list)
@@ -63,11 +59,10 @@ class TestUserListViews(DatasAPITestCase):
                 self.user_repair_operator, self.user_receptionist, self.user_stock_operator,
                 self.user_electrotechnician, self.user_repairman, self.user_coppersmith,
                 self.user_locksmith, self.user_mason, self.user_deliveryman, self.user_installer,
-                self.user_maintenance_agent, self.user_client, self.user_supplier,
-                self.user_active, self.user_employed, self.user_not_employed
+                self.user_maintenance_agent, self.user_apprentice, self.user_client,
+                self.user_supplier, self.user_active, self.user_employed, self.user_not_employed
             ]
         ]
-
         self.assertEqual(response.json(), expected)
 
 
@@ -95,11 +90,10 @@ class TestUserListViews(DatasAPITestCase):
                 self.user_repair_operator, self.user_receptionist, self.user_stock_operator,
                 self.user_electrotechnician, self.user_repairman, self.user_coppersmith,
                 self.user_locksmith, self.user_mason, self.user_deliveryman, self.user_installer,
-                self.user_maintenance_agent, self.user_client, self.user_supplier,
-                self.user_active, self.user_employed, self.user_not_employed
+                self.user_maintenance_agent, self.user_apprentice, self.user_client,
+                self.user_supplier, self.user_active, self.user_employed, self.user_not_employed
             ]
         ]
-
         self.assertEqual(response.json(), expected)
 
 
