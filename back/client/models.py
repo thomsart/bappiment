@@ -19,6 +19,7 @@ class Client(models.Model):
     city = models.CharField(max_length=50)
     street = models.CharField(max_length=50)
     nb_street = models.CharField(max_length=10)
+    country = models.CharField(max_length=20)
     date = models.DateField(auto_now_add=True)
 
 
@@ -29,7 +30,7 @@ class Installation(models.Model):
     city = models.CharField(max_length=50)
     street = models.CharField(max_length=50)
     nb_street = models.CharField(max_length=10)
-    map = models.ImageField(null=True)
+    maps = models.ImageField(null=True)
     photo = models.ImageField(null=True)
     date_delivering = models.DateField(default=date.today)
     maintenance_nb  = models.PositiveSmallIntegerField(default=0)
