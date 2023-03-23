@@ -1,19 +1,57 @@
+from django.shortcuts import render, redirect
+from django.template import loader
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from rest_framework import status
 
-from ..models import User, Status, Membership
-from ..serializers import LightUserSerializer, HeavyUserSerializer, CreateUserSerializer
+from ..models import CustomUser, Status, Membership
+from ..forms import CustomUserCreationForm
+from ..serializers import LightCustomUserSerializer, HeavyCustomUserSerializer, CreateCustomUserSerializer
 from ..permissions import IsActive, IsNotClient,  IsPostUserAllowed, IsAcessUserAllowed
 from ..db import LANGUAGE
 from ..db.datas.user_status import STATUS
 
 
 
+def index(request):
+    form = CustomUserCreationForm
+    users = CustomUser.objects.all()
+    template = loader.get_template("users/index.html")
+    return HttpResponse(
+        template.render({"form": form, "users": users}, request=request)
+    )
 
-class UserList(APIView):
+def create_user(request):
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+    return redirect('index')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class CustomUserList(APIView):
     """
     List all users, or create a new one.
     """
@@ -27,19 +65,19 @@ class UserList(APIView):
 
     def get(self, request, format=None):
 
-        users = User.objects.filter(is_superuser=False, is_staff=False, is_active=True)
+        users = CustomUser.objects.filter(is_superuser=False, is_staff=False, is_active=True)
 
         if int(request.user.hightest_level) >= 4:
-            serializer = HeavyUserSerializer(users, many=True)
+            serializer = HeavyCustomUserSerializer(users, many=True)
         else:
-            serializer = LightUserSerializer(users, many=True)
+            serializer = LightCustomUserSerializer(users, many=True)
 
         return Response(serializer.data)
 
 
     def post(self, request, format=None):
 
-        serializer = CreateUserSerializer(data=request.data)
+        serializer = CreateCustomUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
 
@@ -51,7 +89,7 @@ class UserList(APIView):
 
 
 
-class UserDetail(APIView):
+class CustomUserDetail(APIView):
     """
     Retrieve, update or delete(is_active=False) a user.
     """
@@ -66,14 +104,14 @@ class UserDetail(APIView):
     def get_object(self, pk):
 
         try:
-            user = User.objects.get(id=pk)
+            user = CustomUser.objects.get(id=pk)
 
             if user.is_superuser:
                 raise Http404
             else:
                 return user
 
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             raise Http404
 
 
@@ -82,9 +120,9 @@ class UserDetail(APIView):
         user = self.get_object(pk)
 
         if int(request.user.hightest_level) >= 4:
-            serializer = HeavyUserSerializer(user)
+            serializer = HeavyCustomUserSerializer(user)
         else:
-            serializer = LightUserSerializer(user)
+            serializer = LightCustomUserSerializer(user)
 
         return Response(serializer.data)
 
@@ -92,7 +130,7 @@ class UserDetail(APIView):
     def put(self, request, pk, format=None):
 
         user = self.get_object(pk)
-        serializer = HeavyUserSerializer(user, data=request.data)
+        serializer = HeavyCustomUserSerializer(user, data=request.data)
 
         if serializer.is_valid():
             serializer.save()

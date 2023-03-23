@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Status, Membership
+from .models import CustomUser, Status, Membership
 
 
 
@@ -16,20 +16,20 @@ class StatusSerializer(serializers.ModelSerializer):
 ########### USER #########################################################
 
 
-class LightUserSerializer(serializers.ModelSerializer):
+class LightCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ["id", "first_name", "last_name", "phone"]
 
 
-class HeavyUserSerializer(serializers.ModelSerializer):
+class HeavyCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ["id", "first_name", "last_name", "email", "phone",
                   "days_off", "days_off_cumul", "permanent_contract"]
 
 
-class CreateUserSerializer(serializers.Serializer):
+class CreateCustomUserSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=150)
     last_name = serializers.CharField(max_length=150)
     email = serializers.EmailField(max_length=254)
@@ -37,7 +37,7 @@ class CreateUserSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128)
 
     def create(self, validated_data):
-        user = User.objects.create(
+        user = CustomUser.objects.create(
             username=validated_data["email"] ,**validated_data
         )
         return user
@@ -47,7 +47,7 @@ class CreateUserSerializer(serializers.Serializer):
 
 
 class MembershipSerializer(serializers.ModelSerializer):
-    user = LightUserSerializer()
+    user = LightCustomUserSerializer()
     status = StatusSerializer()
     class Meta:
         model = Membership
@@ -55,7 +55,7 @@ class MembershipSerializer(serializers.ModelSerializer):
 
 
 class CreateMembershipSerializer(serializers.Serializer):
-    user = LightUserSerializer()
+    user = LightCustomUserSerializer()
     status = StatusSerializer()
 
     def to_internal_value(self, data):
@@ -76,7 +76,7 @@ class CreateMembershipSerializer(serializers.Serializer):
         # Return the validated values. This will be available as
         # the `.validated_data` property.
         return {
-            'user': User.objects.get(id=user["id"]),
+            'user': CustomUser.objects.get(id=user["id"]),
             'status': Status.objects.get(id=status["id"])
         }
 
