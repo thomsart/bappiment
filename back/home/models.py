@@ -22,7 +22,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.email
 
 
 class Status(models.Model):
@@ -44,26 +44,3 @@ class Membership(models.Model):
     class Meta:
         ordering = ['user', '-date']
         unique_together = [['user', 'status']]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class CustomUser(AbstractUser):
-    
-
-    
-    def __str__(self):
-        return self.email

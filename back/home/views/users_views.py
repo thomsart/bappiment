@@ -15,6 +15,14 @@ from ..db.datas.user_status import STATUS
 
 
 
+
+
+
+
+
+
+
+
 def index(request):
     form = CustomUserCreationForm
     users = CustomUser.objects.all()
@@ -29,19 +37,6 @@ def create_user(request):
         if form.is_valid():
             form.save()
     return redirect('index')
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
