@@ -1,8 +1,8 @@
 from rest_framework import permissions
 
 from .models import Status, CustomUser, Membership
-from .db import LANGUAGE
-from .db.datas.user_status import STATUS
+from .management.commands.datas import LANGUAGE
+from .management.commands.datas.user_status import STATUS
 
 
 

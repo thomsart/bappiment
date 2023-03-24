@@ -1,0 +1,1 @@
+LANGUAGE = 'fr' # can be also 'en-us', 'it', 'de' etc

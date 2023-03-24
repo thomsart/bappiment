@@ -10,15 +10,8 @@ from ..models import CustomUser, Status, Membership
 from ..forms import CustomUserCreationForm
 from ..serializers import LightCustomUserSerializer, HeavyCustomUserSerializer, CreateCustomUserSerializer
 from ..permissions import IsActive, IsNotClient,  IsPostUserAllowed, IsAcessUserAllowed
-from ..db import LANGUAGE
-from ..db.datas.user_status import STATUS
-
-
-
-
-
-
-
+from ..management.commands.datas import LANGUAGE
+from ..management.commands.datas.user_status import STATUS
 
 
 
