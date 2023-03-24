@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from .models import CustomUser, Status, Membership
+from .forms import CustomUserCreationForm
+from .managers import CustomUserManager
 
 
 
@@ -30,18 +32,25 @@ class HeavyCustomUserSerializer(serializers.ModelSerializer):
 
 
 class CreateCustomUserSerializer(serializers.Serializer):
+    email = serializers.EmailField(max_length=254)
     first_name = serializers.CharField(max_length=150)
     last_name = serializers.CharField(max_length=150)
-    email = serializers.EmailField(max_length=254)
     phone = serializers.CharField(max_length=15)
     password = serializers.CharField(max_length=128)
 
     def create(self, validated_data):
-        user = CustomUser.objects.create(
-            username=validated_data["email"] ,**validated_data
-        )
+
+        user = CustomUser.objects.create_user(**validated_data)
+
         return user
 
+# {
+# "email": "nanard@gmail.com",
+# "first_name": "Bernard",
+# "last_name": "Delb",
+# "phone": "0646756938",
+# "password": "thebigboss77570+"
+# }
 
 ########### MEMBERSHIP ###################################################
 

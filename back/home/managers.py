@@ -22,11 +22,20 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The phone must be set')
 
         email = self.normalize_email(email)
-        user = self.model(email=email, phone=phone, **extra_fields)
+        user = self.model(
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            phone=phone,
+            **extra_fields
+        )
         user.set_password(password)
-        user.save()
+        user.save(using=self._db)
 
-        return user
+        if user:
+            return user
+        else:
+            raise ValueError('User not created')
 
     def create_superuser(self, email, password, **extra_fields):
 
@@ -37,4 +46,11 @@ class CustomUserManager(BaseUserManager):
         # if not extra_fields.get('field'):
         #     raise ValueError('The field must be set')
 
-        return self.create_user(first_name='thomas', last_name='cottenceau', email=email, password=password, phone='undefined', **extra_fields)
+        return self.create_user(
+            first_name='John',
+            last_name='Doe',
+            email=email,
+            password=password,
+            phone='undefined',
+            **extra_fields
+        )

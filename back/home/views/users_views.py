@@ -15,30 +15,6 @@ from ..management.commands.datas.user_status import STATUS
 
 
 
-
-def index(request):
-    form = CustomUserCreationForm
-    users = CustomUser.objects.all()
-    template = loader.get_template("users/index.html")
-    return HttpResponse(
-        template.render({"form": form, "users": users}, request=request)
-    )
-
-def create_user(request):
-    if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-    return redirect('index')
-
-
-
-
-
-
-
-
-
 class CustomUserList(APIView):
     """
     List all users, or create a new one.
@@ -65,16 +41,15 @@ class CustomUserList(APIView):
 
     def post(self, request, format=None):
 
-        serializer = CreateCustomUserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
+        user = CreateCustomUserSerializer(data=request.data)
+        if user.is_valid():
+            user.save()
 
-            return Response(status=status.HTTP_201_CREATED)
+            serializer = LightCustomUserSerializer(user)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-
-
+        return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CustomUserDetail(APIView):
