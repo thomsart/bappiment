@@ -1,5 +1,5 @@
 from .tests_datas import DatasAPITestCase
-from ..models import User
+from ..models import CustomUser
 
 
 class TestUserListViews(DatasAPITestCase):
@@ -110,15 +110,15 @@ class TestUserListViews(DatasAPITestCase):
             'password': "masterofpuppets7745+",
         }
 
-        nb_users = User.objects.count()
+        nb_users = CustomUser.objects.count()
 
         response = self.con_user.post(self.url_users_list, data=datas, format='json')
 
         self.assertEqual(response.status_code, 201)
 
-        self.assertEqual(User.objects.count(), nb_users + 1)
+        self.assertEqual(CustomUser.objects.count(), nb_users + 1)
 
-        new_user = User.objects.get(email="metallica@gmail.com")
+        new_user = CustomUser.objects.get(email="metallica@gmail.com")
         self.assertEqual(new_user.username, "metallica@gmail.com")
 
 
@@ -135,15 +135,15 @@ class TestUserListViews(DatasAPITestCase):
             'password': "vulgardisplay7745+",
         }
 
-        nb_users = User.objects.count()
+        nb_users = CustomUser.objects.count()
 
         response = self.con_user.post(self.url_users_list, data=datas, format='json')
 
         self.assertEqual(response.status_code, 201)
 
-        self.assertEqual(User.objects.count(), nb_users + 1)
+        self.assertEqual(CustomUser.objects.count(), nb_users + 1)
 
-        new_user = User.objects.get(email="pantera@gmail.com")
+        new_user = CustomUser.objects.get(email="pantera@gmail.com")
         self.assertEqual(new_user.username, "pantera@gmail.com")
 
 

@@ -4,29 +4,27 @@ from rest_framework.response import Response
 from django.http import Http404
 from rest_framework import status
 
-from ..models import Membership
+from ..models import Membership, CustomUser, Status
 from ..serializers import MembershipSerializer, CreateMembershipSerializer
-from ..permissions import IsActive, IsNotClient,  IsBoss
+from ..permissions import IsActive, IsBoss
 
 
 
 class MembershipList(APIView):
     """
-    List all users with their status, or attribuate a status to a user.
+    List all users with their status, or attribute a status to a user.
     """
 
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
-        IsNotClient,
         IsBoss,
     ]
 
     def get(self, request, format=None):
 
-        membership = Membership.objects.all()
+        membership = Membership.objects.all().prefetch_related('status').prefetch_related('user')
         # en fonction du status du user on utilisera Light ou Heavy
-
         serializer = MembershipSerializer(membership, many=True)
 
         return Response(serializer.data)
@@ -46,13 +44,13 @@ class MembershipList(APIView):
 
 class MembershipDetail(APIView):
     """
-    Retrieve or delete an attribution of a user's status.
+    Delete an attribution of a user's status.
     """
 
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
-        IsNotClient,
+        IsBoss,
     ]
 
     def get_object(self, pk):
@@ -66,6 +64,18 @@ class MembershipDetail(APIView):
     def delete(self, request, pk, format=None):
 
         membership = self.get_object(pk)
-        membership.delete()
+        all_his_status = Membership.objects.filter(user=membership.user).exclude(id=membership.pk)
+        if len(all_his_status) > 0:
+            user = CustomUser.objects.get(id=membership.user.pk)
+            user.hightest_level = str(int(user.hightest_level) - 1)
+            for each_membership in all_his_status:
+                status_obj = Status.objects.get(id=each_membership.status.pk)
+                if int(status_obj.level) > int(user.hightest_level):
+                    user.hightest_level = status_obj.level
+            membership.delete()
+        else:
+            raise ValueError(
+                'If you want to destitute this user from this status register him in an other before.'
+            )
 
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -42,5 +42,5 @@ class Membership(models.Model):
     status = models.ForeignKey(Status, models.SET_NULL, blank=True, null=True)
 
     class Meta:
-        ordering = ['user', '-date']
+        ordering = ['status', 'date']
         unique_together = [['user', 'status']]

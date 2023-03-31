@@ -36,60 +36,60 @@ class Command(BaseCommand):
             cur = conn.cursor()
             sql_block = ""
 
-            """ We populate the home_status table: """
-            for dicts in STATUS.items():
-                level = ""
-                status = ""
+            # """ We populate the home_status table: """
+            # for dicts in STATUS.items():
+            #     level = ""
+            #     status = ""
+            #     for key, value in dicts[1].items():
+            #         if key == 'level':
+            #             level += value
+            #         if key == LANGUAGE:
+            #             status += value
+            #     sql_block += f"INSERT INTO home_status (name, level) VALUES ('{status}', '{level}');\n"
+
+            """ We populate the agenda_userstate table: """
+            for dicts in USER_STATES.items():
+                state = ""
                 for key, value in dicts[1].items():
-                    if key == 'level':
-                        level += value
                     if key == LANGUAGE:
-                        status += value
-                sql_block += f"INSERT INTO home_status (name, level) VALUES ('{status}', '{level}');\n"
-
-            # """ We populate the agenda_userstate table: """
-            # for dicts in USER_STATES.items():
-            #     state = ""
-            #     for key, value in dicts[1].items():
-            #         if key == LANGUAGE:
-            #             state += value
-            #     sql_block += f"INSERT INTO agenda_userstate (state) VALUES ('{state}');\n"
+                        state += value
+                sql_block += f"INSERT INTO agenda_userstate (state) VALUES ('{state}');\n"
                 
-            # """ We populate the agenda_installationstate table: """
-            # for dicts in INSTALLATION_STATES.items():
-            #     state = ""
-            #     for key, value in dicts[1].items():
-            #         if key == LANGUAGE:
-            #             state += value
-            #     sql_block += f"INSERT INTO agenda_installationstate (state) VALUES ('{state}');\n"
+            """ We populate the agenda_installationstate table: """
+            for dicts in INSTALLATION_STATES.items():
+                state = ""
+                for key, value in dicts[1].items():
+                    if key == LANGUAGE:
+                        state += value
+                sql_block += f"INSERT INTO agenda_installationstate (state) VALUES ('{state}');\n"
 
-            # """ We populate the product_productfamily table: """
-            # for dicts in PRODUCT_FAMILYS.items():
-            #     family = ""
-            #     for key, value in dicts[1].items():
-            #         if key == LANGUAGE:
-            #             family += value
-            #     sql_block += f"INSERT INTO product_productfamily (family) VALUES ('{family}');\n"
+            """ We populate the product_productfamily table: """
+            for dicts in PRODUCT_FAMILYS.items():
+                family = ""
+                for key, value in dicts[1].items():
+                    if key == LANGUAGE:
+                        family += value
+                sql_block += f"INSERT INTO product_productfamily (family) VALUES ('{family}');\n"
 
-            # """ We populate the product_productbrand table: """
-            # for brand in PRODUCT_BRANDS:
-            #     sql_block += f"INSERT INTO product_productbrand (brand) VALUES ('{brand}');\n"
+            """ We populate the product_productbrand table: """
+            for brand in PRODUCT_BRANDS:
+                sql_block += f"INSERT INTO product_productbrand (brand) VALUES ('{brand}');\n"
 
-            # """ We populate the agenda_productstate table: """
-            # for dicts in PRODUCT_STATES.items():
-            #     state = ""
-            #     for key, value in dicts[1].items():
-            #         if key == LANGUAGE:
-            #             state += value
-            #     sql_block += f"INSERT INTO agenda_productstate (state) VALUES ('{state}');\n"
+            """ We populate the agenda_productstate table: """
+            for dicts in PRODUCT_STATES.items():
+                state = ""
+                for key, value in dicts[1].items():
+                    if key == LANGUAGE:
+                        state += value
+                sql_block += f"INSERT INTO agenda_productstate (state) VALUES ('{state}');\n"
 
-            # """ We populate the agenda_vehiclestate table: """
-            # for dicts in VEHICLE_STATES.items():
-            #     state = ""
-            #     for key, value in dicts[1].items():
-            #         if key == LANGUAGE:
-            #             state += value
-            #     sql_block += f"INSERT INTO agenda_vehiclestate (state) VALUES ('{state}');\n"
+            """ We populate the agenda_vehiclestate table: """
+            for dicts in VEHICLE_STATES.items():
+                state = ""
+                for key, value in dicts[1].items():
+                    if key == LANGUAGE:
+                        state += value
+                sql_block += f"INSERT INTO agenda_vehiclestate (state) VALUES ('{state}');\n"
 
 
             # print(sql_block)

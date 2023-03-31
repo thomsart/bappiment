@@ -1,7 +1,7 @@
 from rest_framework.reverse import reverse
 
 from .tests_datas import DatasAPITestCase
-from ..models import User
+from ..models import CustomUser
 
 
 class TestUserDetailViews(DatasAPITestCase):
@@ -75,7 +75,7 @@ class TestUserDetailViews(DatasAPITestCase):
 
     def test_GetLightUserSerializer(self):
         """ We test here that the returned response match with the serializer
-        we are supposed to received: LightUserSerializer. """
+        we are supposed to received: LightCustomUserSerializer. """
 
         self.con_user.force_authenticate(self.user_electrotechnician)
         response = self.con_user.get(reverse(
@@ -93,7 +93,8 @@ class TestUserDetailViews(DatasAPITestCase):
 
 
     def test_GetHeavyUserSerializer(self):
-        """ We test to delete a user. """
+        """ We test here that the returned response match with the serializer
+        we are supposed to received: HeavyCustomUserSerializer. """
 
         self.con_user.force_authenticate(self.user_accountant)
         response = self.con_user.get(reverse(
@@ -116,11 +117,8 @@ class TestUserDetailViews(DatasAPITestCase):
 
 
 
-
-
-
-
-
+    def test_updateUser(self):
+        ...
 
 
 

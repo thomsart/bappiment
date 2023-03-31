@@ -1,14 +1,12 @@
-from django.shortcuts import render, redirect
-from django.template import loader
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from rest_framework import status
 
 from ..models import CustomUser, Status, Membership
-from ..forms import CustomUserCreationForm
-from ..serializers import LightCustomUserSerializer, HeavyCustomUserSerializer, CreateCustomUserSerializer
+from ..serializers import (LightCustomUserSerializer, HeavyCustomUserSerializer,
+                           CreateCustomUserSerializer)
 from ..permissions import IsActive, IsNotClient,  IsPostUserAllowed, IsAcessUserAllowed
 from ..management.commands.datas import LANGUAGE
 from ..management.commands.datas.user_status import STATUS
