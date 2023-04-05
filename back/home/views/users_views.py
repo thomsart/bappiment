@@ -6,7 +6,7 @@ from rest_framework import status
 
 from ..models import CustomUser, Status, Membership
 from ..serializers import (LightCustomUserSerializer, HeavyCustomUserSerializer,
-                           CreateCustomUserSerializer)
+                           CreateCustomUserSerializer, UpdateCustomUserSerializer)
 from ..permissions import IsActive, IsNotClient,  IsPostUserAllowed, IsAcessUserAllowed
 from ..management.commands.datas import LANGUAGE
 from ..management.commands.datas.user_status import STATUS
@@ -91,12 +91,13 @@ class CustomUserDetail(APIView):
     def put(self, request, pk, format=None):
 
         user = self.get_object(pk)
-        serializer = HeavyCustomUserSerializer(user, data=request.data)
+        serializer = UpdateCustomUserSerializer(user, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
+            heavy_user = HeavyCustomUserSerializer(user)
 
-            return Response(serializer.data)
+            return Response(heavy_user.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

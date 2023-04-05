@@ -108,6 +108,7 @@ class TestUserListViews(DatasAPITestCase):
             'email': "metallica@gmail.com",
             'phone': "0646865234",
             'password': "masterofpuppets7745+",
+            'status': "accountant"
         }
 
         nb_users = CustomUser.objects.count()
@@ -119,7 +120,7 @@ class TestUserListViews(DatasAPITestCase):
         self.assertEqual(CustomUser.objects.count(), nb_users + 1)
 
         new_user = CustomUser.objects.get(email="metallica@gmail.com")
-        self.assertEqual(new_user.username, "metallica@gmail.com")
+        self.assertEqual(new_user.email, "metallica@gmail.com")
 
 
     def test_PostUserWithBossUser(self):
@@ -133,6 +134,7 @@ class TestUserListViews(DatasAPITestCase):
             'email': "pantera@gmail.com",
             'phone': "0646865234",
             'password': "vulgardisplay7745+",
+            'status': "hr"
         }
 
         nb_users = CustomUser.objects.count()
@@ -144,7 +146,7 @@ class TestUserListViews(DatasAPITestCase):
         self.assertEqual(CustomUser.objects.count(), nb_users + 1)
 
         new_user = CustomUser.objects.get(email="pantera@gmail.com")
-        self.assertEqual(new_user.username, "pantera@gmail.com")
+        self.assertEqual(new_user.email, "pantera@gmail.com")
 
 
     def test_PostUserWithAccountanttUser(self):

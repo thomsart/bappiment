@@ -66,6 +66,10 @@ class CreateCustomUserSerializer(serializers.Serializer):
 # "status": "électrotechnicien"
 # }
 
+class UpdateCustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ["first_name", "last_name", "email", "phone", "permanent_contract"]
 
 ########### MEMBERSHIP ###################################################
 
@@ -155,4 +159,4 @@ class CreateMembershipSerializer(serializers.Serializer):
             user.hightest_level = status.level
             user.save()
 
-        return MembershipsSerializer(membership)
+        return MembershipSerializer(membership)

@@ -84,11 +84,12 @@ class TestUserDetailViews(DatasAPITestCase):
         self.assertEqual(response.status_code, 200)
 
         expected = {
-                'id': self.user_boss.pk,
-                'first_name': self.user_boss.first_name,
-                'last_name': self.user_boss.last_name,
-                'phone': self.user_boss.phone,
-            }
+            'id': self.user_boss.pk,
+            'first_name': self.user_boss.first_name,
+            'last_name': self.user_boss.last_name,
+            'phone': self.user_boss.phone,
+        }
+
         self.assertEqual(response.json(), expected)
 
 
