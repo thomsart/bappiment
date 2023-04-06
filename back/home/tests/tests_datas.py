@@ -29,7 +29,7 @@ class DatasAPITestCase(APITestCase):
 
         cls.status_boss = Status.objects.create(name=STATUS['boss'][LANGUAGE])
         cls.status_accountant = Status.objects.create(name=STATUS['accountant'][LANGUAGE])
-        cls.status_hr = Status.objects.create(name="hr")
+        cls.status_hr = Status.objects.create(name=STATUS['hr'][LANGUAGE])
         cls.status_commercial = Status.objects.create(name=STATUS['commercial'][LANGUAGE])
         cls.status_repair_operator = Status.objects.create(name=STATUS['repair_operator'][LANGUAGE])
         cls.status_receptionist = Status.objects.create(name=STATUS['receptionist'][LANGUAGE])

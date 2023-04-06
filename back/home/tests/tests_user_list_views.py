@@ -97,6 +97,29 @@ class TestUserListViews(DatasAPITestCase):
         self.assertEqual(response.json(), expected)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def test_PostUserWithSuperuser(self):
         """ Test of method post with a superuser. """
 
@@ -108,7 +131,7 @@ class TestUserListViews(DatasAPITestCase):
             'email': "metallica@gmail.com",
             'phone': "0646865234",
             'password': "masterofpuppets7745+",
-            'status': "accountant"
+            'status': "comptable"
         }
 
         nb_users = CustomUser.objects.count()
@@ -134,7 +157,7 @@ class TestUserListViews(DatasAPITestCase):
             'email': "pantera@gmail.com",
             'phone': "0646865234",
             'password': "vulgardisplay7745+",
-            'status': "hr"
+            'status': "rh"
         }
 
         nb_users = CustomUser.objects.count()
@@ -161,6 +184,7 @@ class TestUserListViews(DatasAPITestCase):
             'email': "pantera@gmail.com",
             'phone': "0646865234",
             'password': "vulgardisplay7745+",
+            'status': "electrotechnicien"
         }
 
         response = self.con_user.post(self.url_users_list, data=datas)
