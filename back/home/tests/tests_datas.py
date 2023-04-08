@@ -51,12 +51,12 @@ class DatasAPITestCase(APITestCase):
         ##################### We create all serializers #######################
         ##################### We create all serializers #######################
 
-        cls.status_serializer = StatusSerializer()
-        cls.light_user_serializer = LightCustomUserSerializer
-        cls.heavy_user_serializer = HeavyCustomUserSerializer()
-        cls.create_user_serializer = CreateCustomUserSerializer()
-        cls.membership_serializer = MembershipSerializer()
-        cls.create_membership_serializer = CreateMembershipSerializer()
+        # cls.status_serializer = StatusSerializer()
+        # cls.light_user_serializer = LightCustomUserSerializer
+        # cls.heavy_user_serializer = HeavyCustomUserSerializer()
+        # cls.create_user_serializer = CreateCustomUserSerializer()
+        # cls.membership_serializer = MembershipSerializer()
+        # cls.create_membership_serializer = CreateMembershipSerializer()
 
 
         ######################### We create all users #########################

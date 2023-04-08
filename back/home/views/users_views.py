@@ -43,9 +43,7 @@ class CustomUserList(APIView):
         if user.is_valid():
             user.save()
 
-            serializer = LightCustomUserSerializer(user)
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_201_CREATED)
 
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
 

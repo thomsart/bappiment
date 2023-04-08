@@ -12,8 +12,8 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
 
-    list_display = ('email', 'is_staff')
-    list_filter = ('email', 'is_staff')
+    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    list_filter = ('email', 'first_name', 'last_name', 'is_staff')
     fieldsets = (
         ('Logs', {'fields': ('email', 'password')}),
         ('User', {'fields': (
@@ -30,8 +30,8 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'password1', 'password2', 'is_staff', 'is_active'),
         })
     )
-    search_fields = ('email',)
-    ordering = ('id',)
+    search_fields = ('email', 'first_name', 'last_name')
+    ordering = ('first_name', 'last_name')
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
