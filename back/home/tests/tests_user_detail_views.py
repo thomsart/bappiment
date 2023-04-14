@@ -64,9 +64,9 @@ class TestUserDetailViews(DatasAPITestCase):
 
 
     def test_GetSuperuserUnauthorised(self):
-        """ We test that acces the superuser is not allowed. """
+        """ We test that access to the superuser is not allowed. """
 
-        self.con_user.force_authenticate(self.user_boss)
+        self.con_user.force_authenticate(self.user_apprentice)
         response = self.con_user.get(reverse(
             self.url_users_detail, kwargs={'pk': self.superuser.pk}
         ))
@@ -118,9 +118,10 @@ class TestUserDetailViews(DatasAPITestCase):
 
 
 
-    def test_updateUser(self):
+    def test_updateUserWithBossUser(self):
         ...
-
+    def test_updateUserWithBossUser(self):
+        ...
 
 
     def test_DeleteUserByBoss(self):
@@ -133,6 +134,18 @@ class TestUserDetailViews(DatasAPITestCase):
         self.assertEqual(response.status_code, 204)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     def test_DeleteUserByAccountant(self):
         """ We test to delete a user with an accountant. """
 
@@ -140,7 +153,7 @@ class TestUserDetailViews(DatasAPITestCase):
         response = self.con_user.delete(reverse(
             self.url_users_detail, kwargs={'pk': self.user_installer.pk}
         ))
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
 
     def test_DeleteUserByElectrotechnician(self):
@@ -150,7 +163,7 @@ class TestUserDetailViews(DatasAPITestCase):
         response = self.con_user.delete(reverse(
             self.url_users_detail, kwargs={'pk': self.user_installer.pk}
         ))
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
 
     def test_DeleteUserByApprentice(self):
@@ -160,7 +173,7 @@ class TestUserDetailViews(DatasAPITestCase):
         response = self.con_user.delete(reverse(
             self.url_users_detail, kwargs={'pk': self.user_client.pk}
         ))
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
 
     def test_DeleteUserByClient(self):

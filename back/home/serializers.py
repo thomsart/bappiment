@@ -11,7 +11,7 @@ from .managers import CustomUserManager
 class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Status
-        fields = ["name"]
+        fields = ["id", "name", "level"]
 
 
 ########### USER #########################################################
@@ -35,7 +35,7 @@ class CreateCustomUserSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=15)
     password = serializers.CharField(max_length=128)
 
-    def create(self, validated_data: dict):
+    def create(self, validated_data):
 
         status_name = validated_data.pop("status")
         status = Status.objects.get(name=status_name)
@@ -64,6 +64,15 @@ class CreateCustomUserSerializer(serializers.Serializer):
 # "phone": "0646756943",
 # "password": "2virgule21gigawatt+",
 # "status": "électrotechnicien"
+# }
+
+# {
+# "email": "nat@gmail.com",
+# "first_name": "Nathalie",
+# "last_name": "McFly",
+# "phone": "0646756944",
+# "password": "tatayoyo77+",
+# "status": "comptable"
 # }
 
 class UpdateCustomUserSerializer(serializers.ModelSerializer):

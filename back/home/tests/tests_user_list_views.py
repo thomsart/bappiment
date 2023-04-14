@@ -60,7 +60,7 @@ class TestUserListViews(DatasAPITestCase):
                 self.user_electrotechnician, self.user_repairman, self.user_coppersmith,
                 self.user_locksmith, self.user_mason, self.user_deliveryman, self.user_installer,
                 self.user_maintenance_agent, self.user_apprentice, self.user_client,
-                self.user_supplier, self.user_active, self.user_employed, self.user_not_employed
+                self.user_active, self.user_employed, self.user_not_employed
             ]
         ]
         self.assertEqual(response.json(), expected)
@@ -91,7 +91,7 @@ class TestUserListViews(DatasAPITestCase):
                 self.user_electrotechnician, self.user_repairman, self.user_coppersmith,
                 self.user_locksmith, self.user_mason, self.user_deliveryman, self.user_installer,
                 self.user_maintenance_agent, self.user_apprentice, self.user_client,
-                self.user_supplier, self.user_active, self.user_employed, self.user_not_employed
+                self.user_active, self.user_employed, self.user_not_employed
             ]
         ]
         self.assertEqual(response.json(), expected)

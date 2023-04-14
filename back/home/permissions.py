@@ -175,9 +175,6 @@ class IsDeliveryman(permissions.BasePermission):
 
 
 
-
-
-
 ###############################################################################
 ############################ External user ####################################
 ###############################################################################
@@ -202,39 +199,38 @@ class IsNotClient(permissions.BasePermission):
 
 
 
-
-
-
 ###############################################################################
 ############################ object Permissions ###############################
 ###############################################################################
 
 
-class IsPostUserAllowed(permissions.BasePermission):
-    
-    def has_permission(self, request, view):
-
-        boss = Status.objects.get(name=STATUS['boss'][LANGUAGE])
-
-        if request.method == 'POST':
-            if Membership.objects.filter(user=request.user.id, status=boss.pk).exists() \
-                or request.user.is_superuser:
-                    return True
-            else:
-                return False
-        else:
-            return True
-
-
-class IsAcessUserAllowed(permissions.BasePermission):
+class IsCrudOnUserAllowed(permissions.BasePermission):
     """ This permission check for the right to retrieve a user in
     considering the status of the user. """
 
-    def has_object_permission(self, request, view, obj):
+    def has_permission(self, request, view):
 
         level = request.user.hightest_level
+        is_superuser = request.user.is_superuser
 
-        if int(level) > 1 or request.user.is_superuser:
-            return True
-        else:
+        if request.method == 'POST':
+            if int(level) == 5 or is_superuser:
+                return True
+
+        if request.method == "GET":
+            if int(level) > 1 or is_superuser:
+                return True
+
+        if request.method == "PUT" or request.method == "DELETE":
+            if int(level) == 5 or is_superuser:
+                return True
+
+        return False
+
+    def has_object_permission(self, request, view, obj):
+
+        if obj.is_superuser:
+
             return False
+
+        return True

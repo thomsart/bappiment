@@ -170,17 +170,11 @@ class DatasAPITestCase(APITestCase):
         cls.membership_client = Membership.objects.create(
             user=cls.user_client, status=cls.status_client)
 
-        cls.user_supplier = CustomUser.objects.create(
-            first_name="Frederic", last_name="Jaegge", email="supplier@gmail.com",
-            phone="0645856912", password="noksvg5g5n/mars8-", hightest_level="1")
-        cls.membership_supplier = Membership.objects.create(
-            user=cls.user_supplier, status=cls.status_supplier)
-
         # specific user
 
         cls.user_active = CustomUser.objects.create(
             first_name="Pierre", last_name="Active", email="active@gmail.com",
-            phone="0648569745", password="mjefo4ars9-")
+            phone="0648569745", password="mjefo4ars9-", hightest_level="3")
 
         cls.user_not_active = CustomUser.objects.create(
             first_name="Pierre", last_name="Not active",email="notactive@gmail.com",

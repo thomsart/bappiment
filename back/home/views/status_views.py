@@ -1,4 +1,4 @@
-from rest_framework.views import APIView
+from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.response import Response
 
@@ -7,20 +7,15 @@ from ..serializers import StatusSerializer
 from ..permissions import IsActive, IsNotClient
 
 
-class StatusList(APIView):
+class StatusViews(viewsets.ReadOnlyModelViewSet):
     """
-    List all status.
+    List all status or get a specific one.
     """
 
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
         IsNotClient,
     ]
-
-    def get(self, request, format=None):
-
-        status = Status.objects.all()
-        serializer = StatusSerializer(status, many=True)
-
-        return Response(serializer.data)

@@ -1,13 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 
 from ..models import CustomUser, Status, Membership
 from ..serializers import (LightCustomUserSerializer, HeavyCustomUserSerializer,
                            CreateCustomUserSerializer, UpdateCustomUserSerializer)
-from ..permissions import IsActive, IsNotClient,  IsPostUserAllowed, IsAcessUserAllowed
+from ..permissions import IsActive, IsNotClient, IsCrudOnUserAllowed
 from ..management.commands.datas import LANGUAGE
 from ..management.commands.datas.user_status import STATUS
 
@@ -22,7 +22,7 @@ class CustomUserList(APIView):
         permissions.IsAuthenticated,
         IsActive,
         IsNotClient,
-        IsPostUserAllowed,
+        IsCrudOnUserAllowed
     ]
 
     def get(self, request, format=None):
@@ -41,9 +41,10 @@ class CustomUserList(APIView):
 
         user = CreateCustomUserSerializer(data=request.data)
         if user.is_valid():
-            user.save()
+            user = user.save()
+            serializer = HeavyCustomUserSerializer(user)
 
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -57,21 +58,19 @@ class CustomUserDetail(APIView):
         permissions.IsAuthenticated,
         IsActive,
         IsNotClient,
-        IsAcessUserAllowed,
+        IsCrudOnUserAllowed
     ]
+
+    def get_queryset(self):
+
+        return CustomUser.objects.filter(is_superuser=False, is_staff=False, is_active=True)
+
 
     def get_object(self, pk):
 
-        try:
-            user = CustomUser.objects.get(id=pk)
-
-            if user.is_superuser:
-                raise Http404
-            else:
-                return user
-
-        except CustomUser.DoesNotExist:
-            raise Http404
+        user = get_object_or_404(self.get_queryset(), pk=self.kwargs["pk"])
+        self.check_object_permissions(self.request, user)
+        return user
 
 
     def get(self, request, pk, format=None):
@@ -102,17 +101,12 @@ class CustomUserDetail(APIView):
 
     def delete(self, request, pk, format=None):
 
-        boss = Status.objects.get(name=STATUS['boss'][LANGUAGE])
+        user = self.get_object(pk)
 
-        if request.user.is_superuser \
-            or Membership.objects.filter(
-                user=request.user.id, status=boss.pk
-            ).exists():
-
-            user = self.get_object(pk)
+        try:
             user.is_active = False
             user.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        except PermissionError:
+            return Response(status=status.HTTP_403_FORBIDDEN)
