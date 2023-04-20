@@ -85,7 +85,7 @@ class IsRepairOperator(permissions.BasePermission):
 
 
 class IsStockOperator(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         stock_operator = Status.objects.get(name=STATUS['stock_operator'][LANGUAGE])
@@ -94,7 +94,7 @@ class IsStockOperator(permissions.BasePermission):
 
 
 class IsReceptionist(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         receptionist = Status.objects.get(name=STATUS['receptionist'][LANGUAGE])
@@ -103,7 +103,7 @@ class IsReceptionist(permissions.BasePermission):
 
 
 class IsInstaller(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         installer = Status.objects.get(name=STATUS['installer'][LANGUAGE])
@@ -112,7 +112,7 @@ class IsInstaller(permissions.BasePermission):
 
 
 class IsElectrotechnician(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         electrotechnician = Status.objects.get(name=STATUS['electrotechnician'][LANGUAGE])
@@ -121,7 +121,7 @@ class IsElectrotechnician(permissions.BasePermission):
 
 
 class IsCoppersmith(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         coppersmith = Status.objects.get(name=STATUS['coppersmith'][LANGUAGE])
@@ -130,7 +130,7 @@ class IsCoppersmith(permissions.BasePermission):
 
 
 class IsLocksmith(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         locksmith = Status.objects.get(name=STATUS['locksmith'][LANGUAGE])
@@ -139,7 +139,7 @@ class IsLocksmith(permissions.BasePermission):
 
 
 class IsMason(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         mason = Status.objects.get(name=STATUS['mason'][LANGUAGE])
@@ -148,7 +148,7 @@ class IsMason(permissions.BasePermission):
 
 
 class IsRepairman(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         repairman = Status.objects.get(name=STATUS['repairman'][LANGUAGE])
@@ -157,7 +157,7 @@ class IsRepairman(permissions.BasePermission):
 
 
 class IsMaintenanceAgent(permissions.BasePermission):
-    
+
     def has_permission(self, request, view):
 
         maintenance_agent = Status.objects.get(name=STATUS['maintenance_agent'][LANGUAGE])

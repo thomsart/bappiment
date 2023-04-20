@@ -83,14 +83,14 @@ class TestUserDetailViews(DatasAPITestCase):
         ))
         self.assertEqual(response.status_code, 200)
 
-        expected = {
+        expected_datas = {
             'id': self.user_boss.pk,
             'first_name': self.user_boss.first_name,
             'last_name': self.user_boss.last_name,
             'phone': self.user_boss.phone,
         }
 
-        self.assertEqual(response.json(), expected)
+        self.assertEqual(response.json(), expected_datas)
 
 
     def test_GetHeavyUserSerializer(self):
@@ -103,7 +103,7 @@ class TestUserDetailViews(DatasAPITestCase):
         ))
         self.assertEqual(response.status_code, 200)
 
-        expected = {
+        expected_datas = {
             'id': self.user_installer.pk,
             'first_name': self.user_installer.first_name,
             'last_name': self.user_installer.last_name,
@@ -114,14 +114,87 @@ class TestUserDetailViews(DatasAPITestCase):
             "permanent_contract": self.user_installer.permanent_contract,
         }
 
-        self.assertEqual(response.json(), expected)
-
+        self.assertEqual(response.json(), expected_datas)
 
 
     def test_updateUserWithBossUser(self):
-        ...
-    def test_updateUserWithBossUser(self):
-        ...
+        """ We test here that the boss can update a user. """
+
+        self.con_user.force_authenticate(self.user_boss)
+
+        self.assertEqual(self.user_not_employed.permanent_contract, False)
+
+        datas = {
+            'first_name': self.user_not_employed.first_name,
+            'last_name': self.user_not_employed.last_name,
+            'email': self.user_not_employed.email,
+            'phone': self.user_not_employed.phone,
+            'permanent_contract': "true"
+        }
+
+        response = self.con_user.put(
+            reverse(self.url_users_detail, kwargs={'pk': self.user_not_employed.pk}),
+            data=datas
+        )
+
+        expected_datas = {
+            'id': self.user_not_employed.pk,
+            'first_name': self.user_not_employed.first_name,
+            'last_name': self.user_not_employed.last_name,
+            'email': self.user_not_employed.email,
+            'phone': self.user_not_employed.phone,
+            'days_off': self.user_not_employed.days_off,
+            'days_off_cumul': self.user_not_employed.days_off_cumul,
+            'permanent_contract': True
+        }
+
+        self.assertEqual(response.json(), expected_datas)
+
+
+    def test_updateUserWithForbiddenUser(self):
+        """ We test here that an accountant cannot update a user. """
+
+        self.con_user.force_authenticate(self.user_accountant)
+
+        self.assertEqual(self.user_not_employed.permanent_contract, False)
+
+        datas = {
+            'first_name': self.user_not_employed.first_name,
+            'last_name': self.user_not_employed.last_name,
+            'email': self.user_not_employed.email,
+            'phone': self.user_not_employed.phone,
+            'permanent_contract': "true"
+        }
+
+        response = self.con_user.put(
+            reverse(self.url_users_detail, kwargs={'pk': self.user_not_employed.pk}),
+            data=datas
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+
+    def test_updateUserWithWrongDatas(self):
+        """ We test here the updating with wrong datas. """
+
+        self.con_user.force_authenticate(self.user_boss)
+
+        self.assertEqual(self.user_not_employed.permanent_contract, False)
+
+        datas = {
+            'first_name': self.user_not_employed.first_name,
+            'last_name': self.user_not_employed.last_name,
+            'email': self.user_not_employed.email,
+            'phone': self.user_not_employed.phone,
+            'permanent_contract': self.user_not_employed.phone
+        }
+
+        response = self.con_user.put(
+            reverse(self.url_users_detail, kwargs={'pk': self.user_not_employed.pk}),
+            data=datas
+        )
+
+        self.assertEqual(response.status_code, 400)
 
 
     def test_DeleteUserByBoss(self):
@@ -132,18 +205,6 @@ class TestUserDetailViews(DatasAPITestCase):
             self.url_users_detail, kwargs={'pk': self.user_installer.pk}
         ))
         self.assertEqual(response.status_code, 204)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     def test_DeleteUserByAccountant(self):

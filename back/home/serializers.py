@@ -82,7 +82,7 @@ class UpdateCustomUserSerializer(serializers.ModelSerializer):
 
 ########### MEMBERSHIP ###################################################
 
-class MembershipSerializer(serializers.ModelSerializer):
+class LightMembershipSerializer(serializers.ModelSerializer):
     status = StatusSerializer()
     user = LightCustomUserSerializer()
 
@@ -90,6 +90,13 @@ class MembershipSerializer(serializers.ModelSerializer):
         model = Membership
         fields = ["id", "status", "user", "date"]
 
+class HeavyMembershipSerializer(serializers.ModelSerializer):
+    status = StatusSerializer()
+    user = HeavyCustomUserSerializer()
+
+    class Meta:
+        model = Membership
+        fields = ["id", "status", "user", "date"]
 
 class CreateMembershipSerializer(serializers.Serializer):
     status = StatusSerializer()

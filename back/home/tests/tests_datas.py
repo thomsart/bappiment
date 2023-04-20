@@ -5,7 +5,8 @@ from django.urls import reverse_lazy
 from ..models import CustomUser, Status, Membership
 from ..serializers import (
     StatusSerializer, LightCustomUserSerializer, HeavyCustomUserSerializer,
-    CreateCustomUserSerializer, MembershipSerializer, CreateMembershipSerializer
+    CreateCustomUserSerializer, CreateMembershipSerializer,
+    LightMembershipSerializer, HeavyMembershipSerializer
 )
 from ..management.commands.datas import LANGUAGE
 from ..management.commands.datas.installation_states import INSTALLATION_STATES
@@ -101,7 +102,7 @@ class DatasAPITestCase(APITestCase):
         cls.user_receptionist = CustomUser.objects.create(
             first_name="Magalie", last_name="Bardo", email="magbar@gmail.com",
             phone="0756368537", password="mabar455446+1", hightest_level="3")
-        cls.membership_repair_operator = Membership.objects.create(
+        cls.membership_receptionist = Membership.objects.create(
             user=cls.user_receptionist, status=cls.status_receptionist)
 
         cls.user_stock_operator = CustomUser.objects.create(

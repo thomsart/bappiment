@@ -14,7 +14,7 @@ from ..management.commands.datas.user_status import STATUS
 
 
 class CustomUserList(APIView):
-    """
+    """  
     List all users, or create a new one.
     """
 
@@ -70,6 +70,7 @@ class CustomUserDetail(APIView):
 
         user = get_object_or_404(self.get_queryset(), pk=self.kwargs["pk"])
         self.check_object_permissions(self.request, user)
+
         return user
 
 

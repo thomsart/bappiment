@@ -5,8 +5,8 @@ from django.http import Http404
 from rest_framework import status
 
 from ..models import Membership, CustomUser, Status
-from ..serializers import MembershipSerializer, CreateMembershipSerializer
-from ..permissions import IsActive, IsBoss
+from ..serializers import LightMembershipSerializer, HeavyMembershipSerializer, CreateMembershipSerializer
+from ..permissions import IsActive, IsBoss, IsNotClient
 
 
 
@@ -18,14 +18,17 @@ class MembershipList(APIView):
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
-        IsBoss,
+        IsNotClient
     ]
 
     def get(self, request, format=None):
 
         membership = Membership.objects.all().prefetch_related('status').prefetch_related('user')
-        # en fonction du status du user on utilisera Light ou Heavy
-        serializer = MembershipSerializer(membership, many=True)
+
+        if int(request.user.hightest_level) >= 4:
+            serializer = HeavyMembershipSerializer(membership, many=True)
+        else:
+            serializer = LightMembershipSerializer(membership, many=True)
 
         return Response(serializer.data)
 
@@ -49,8 +52,7 @@ class MembershipDetail(APIView):
 
     permission_classes = [
         permissions.IsAuthenticated,
-        IsActive,
-        IsBoss,
+        IsBoss
     ]
 
     def get_object(self, pk):
