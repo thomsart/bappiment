@@ -166,6 +166,11 @@ class CreateMembershipSerializer(serializers.Serializer):
 
     def create(self, validated_data):
 
+        if Membership.objects.filter(**validated_data).exists():
+            raise serializers.ValidationError({
+                'status': 'The user is already a ' + validated_data['status'].name
+            })
+
         membership = Membership.objects.create(**validated_data)
         membership.save()
 
@@ -175,4 +180,4 @@ class CreateMembershipSerializer(serializers.Serializer):
             user.hightest_level = status.level
             user.save()
 
-        return MembershipSerializer(membership)
+        return membership

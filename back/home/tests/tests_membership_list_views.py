@@ -74,14 +74,19 @@ class TestMembershipsListViews(DatasAPITestCase):
                 },
                 "date": str(membership.date)
             } for membership in [
-                self.membership_boss, self.membership_accountant, self.membership_hr,
-                self.membership_commercial, self.membership_repair_operator,
-                self.membership_receptionist, self.membership_stock_operator,
-                self.membership_electrotechnician, self.membership_repairman,
-                self.membership_coppersmith, self.membership_locksmith,
+                self.membership_boss, self.membership_accountant,
+                self.membership_hr, self.user_multi_qualifications_hr,
+                self.membership_commercial, self.user_multi_qualifications_commercial,
+                self.membership_repair_operator, self.membership_receptionist,
+                self.membership_stock_operator, self.membership_electrotechnician,
+                self.user_multi_qualifications_electrotechnician,
+                self.membership_repairman, self.membership_coppersmith,
+                self.membership_locksmith, self.user_multi_qualifications_locksmith,
                 self.membership_mason, self.membership_deliveryman,
+                self.user_multi_qualifications_deliveryman,
                 self.membership_installer, self.membership_maintenance_agent,
-                self.membership_apprentice, self.membership_client
+                self.membership_apprentice, self.user_multi_qualifications_apprentice,
+                self.membership_client
             ]
         ]
 
@@ -117,15 +122,112 @@ class TestMembershipsListViews(DatasAPITestCase):
                 },
                 "date": str(membership.date)
             } for membership in [
-                self.membership_boss, self.membership_accountant, self.membership_hr,
-                self.membership_commercial, self.membership_repair_operator,
-                self.membership_receptionist, self.membership_stock_operator,
-                self.membership_electrotechnician, self.membership_repairman,
-                self.membership_coppersmith, self.membership_locksmith,
+                self.membership_boss, self.membership_accountant,
+                self.membership_hr, self.user_multi_qualifications_hr,
+                self.membership_commercial, self.user_multi_qualifications_commercial,
+                self.membership_repair_operator, self.membership_receptionist,
+                self.membership_stock_operator, self.membership_electrotechnician,
+                self.user_multi_qualifications_electrotechnician,
+                self.membership_repairman, self.membership_coppersmith,
+                self.membership_locksmith, self.user_multi_qualifications_locksmith,
                 self.membership_mason, self.membership_deliveryman,
+                self.user_multi_qualifications_deliveryman,
                 self.membership_installer, self.membership_maintenance_agent,
-                self.membership_apprentice, self.membership_client
+                self.membership_apprentice, self.user_multi_qualifications_apprentice,
+                self.membership_client
             ]
         ]
 
         self.assertEqual(response.json(), expected_datas)
+
+
+    def test_CreateMembershipWithBossUser(self):
+        """  """
+
+        self.con_user.force_authenticate(self.user_boss)
+
+        datas = {
+            "status": {
+                "id": self.status_accountant.pk,
+                "name": self.status_accountant.name,
+                "level": self.status_accountant.level
+            },
+            "user": {
+                "id": self.user_electrotechnician.id,
+                "first_name": self.user_electrotechnician.first_name,
+                "last_name": self.user_electrotechnician.last_name,
+                "phone": self.user_electrotechnician.phone
+            }
+        }
+
+        nb_memberships = Membership.objects.count()
+
+        response = self.con_user.post(self.url_memberships_list, data=datas, format='json')
+
+        self.assertEqual(Membership.objects.count(), nb_memberships + 1)
+
+        self.assertEqual(response.status_code, 201)
+
+        expected_datas = {
+            'status': {
+                'id': 20,
+                'level': '5',
+                'name': 'comptable'
+            },
+            'user': {
+                'id': 32,
+                'first_name': 'Frédéric',
+                'last_name': 'Souris',
+                'phone': '0756364578'
+            }
+        }
+
+        self.assertEqual(response.json(), expected_datas)
+
+
+    def test_CreateMembershipWithAccountantUser(self):
+        """  """
+
+        self.con_user.force_authenticate(self.user_accountant)
+
+        datas = {
+            "status": {
+                "id": self.status_accountant.pk,
+                "name": self.status_accountant.name,
+                "level": self.status_accountant.level
+            },
+            "user": {
+                "id": self.user_electrotechnician.id,
+                "first_name": self.user_electrotechnician.first_name,
+                "last_name": self.user_electrotechnician.last_name,
+                "phone": self.user_electrotechnician.phone
+            }
+        }
+
+        response = self.con_user.post(self.url_memberships_list, data=datas, format='json')
+
+        self.assertEqual(response.status_code, 403)
+
+
+    def test_CreateMembershipThatAlreadyExist(self):
+        """  """
+
+        self.con_user.force_authenticate(self.user_boss)
+
+        datas = {
+            "status": {
+                "id": self.status_electrotechnician.pk,
+                "name": self.status_electrotechnician.name,
+                "level": self.status_electrotechnician.level
+            },
+            "user": {
+                "id": self.user_electrotechnician.id,
+                "first_name": self.user_electrotechnician.first_name,
+                "last_name": self.user_electrotechnician.last_name,
+                "phone": self.user_electrotechnician.phone
+            }
+        }
+
+        response = self.con_user.post(self.url_memberships_list, data=datas, format='json')
+
+        self.assertEqual(response.status_code, 400)

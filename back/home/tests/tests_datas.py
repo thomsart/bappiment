@@ -28,24 +28,24 @@ class DatasAPITestCase(APITestCase):
         ##################### We create all status ############################
         ##################### We create all status ############################
 
-        cls.status_boss = Status.objects.create(name=STATUS['boss'][LANGUAGE])
-        cls.status_accountant = Status.objects.create(name=STATUS['accountant'][LANGUAGE])
-        cls.status_hr = Status.objects.create(name=STATUS['hr'][LANGUAGE])
-        cls.status_commercial = Status.objects.create(name=STATUS['commercial'][LANGUAGE])
-        cls.status_repair_operator = Status.objects.create(name=STATUS['repair_operator'][LANGUAGE])
-        cls.status_receptionist = Status.objects.create(name=STATUS['receptionist'][LANGUAGE])
-        cls.status_stock_operator = Status.objects.create(name=STATUS['stock_operator'][LANGUAGE])
-        cls.status_electrotechnician = Status.objects.create(name=STATUS['electrotechnician'][LANGUAGE])
-        cls.status_repairman = Status.objects.create(name=STATUS['repairman'][LANGUAGE])
-        cls.status_coppersmith = Status.objects.create(name=STATUS['coppersmith'][LANGUAGE])
-        cls.status_locksmith = Status.objects.create(name=STATUS['locksmith'][LANGUAGE])
-        cls.status_mason = Status.objects.create(name=STATUS['mason'][LANGUAGE])
-        cls.status_deliveryman = Status.objects.create(name=STATUS['deliveryman'][LANGUAGE])
-        cls.status_installer = Status.objects.create(name=STATUS['installer'][LANGUAGE])
-        cls.status_maintenance_agent = Status.objects.create(name=STATUS['maintenance_agent'][LANGUAGE])
-        cls.status_apprentice = Status.objects.create(name=STATUS['apprentice'][LANGUAGE])
-        cls.status_client = Status.objects.create(name=STATUS['client'][LANGUAGE])
-        cls.status_supplier = Status.objects.create(name=STATUS['supplier'][LANGUAGE])
+        cls.status_boss = Status.objects.create(name=STATUS['boss'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_accountant = Status.objects.create(name=STATUS['accountant'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_hr = Status.objects.create(name=STATUS['hr'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_commercial = Status.objects.create(name=STATUS['commercial'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_repair_operator = Status.objects.create(name=STATUS['repair_operator'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_receptionist = Status.objects.create(name=STATUS['receptionist'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_stock_operator = Status.objects.create(name=STATUS['stock_operator'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_electrotechnician = Status.objects.create(name=STATUS['electrotechnician'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_repairman = Status.objects.create(name=STATUS['repairman'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_coppersmith = Status.objects.create(name=STATUS['coppersmith'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_locksmith = Status.objects.create(name=STATUS['locksmith'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_mason = Status.objects.create(name=STATUS['mason'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_deliveryman = Status.objects.create(name=STATUS['deliveryman'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_installer = Status.objects.create(name=STATUS['installer'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_maintenance_agent = Status.objects.create(name=STATUS['maintenance_agent'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_apprentice = Status.objects.create(name=STATUS['apprentice'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_client = Status.objects.create(name=STATUS['client'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_supplier = Status.objects.create(name=STATUS['supplier'][LANGUAGE], level=STATUS['boss']['level'])
 
 
         ##################### We create all serializers #######################
@@ -190,6 +190,21 @@ class DatasAPITestCase(APITestCase):
             first_name="Pierre", last_name="Not_permanent", email="notemployed@gmail.com",
             phone="0648569745", password="kjefo4ars15-", permanent_contract=False)
 
+        cls.user_multi_qualifications = CustomUser.objects.create(
+            first_name="Jarod", last_name="Cameleon", email="jc@gmail.com",
+            phone="0648569745", password="65hv1j61uny", hightest_level=4)
+        cls.user_multi_qualifications_hr = Membership.objects.create(
+            user=cls.user_multi_qualifications, status=cls.status_hr)
+        cls.user_multi_qualifications_commercial = Membership.objects.create(
+            user=cls.user_multi_qualifications, status=cls.status_commercial)
+        cls.user_multi_qualifications_electrotechnician = Membership.objects.create(
+            user=cls.user_multi_qualifications, status=cls.status_electrotechnician)
+        cls.user_multi_qualifications_locksmith = Membership.objects.create(
+            user=cls.user_multi_qualifications, status=cls.status_locksmith)
+        cls.user_multi_qualifications_deliveryman = Membership.objects.create(
+            user=cls.user_multi_qualifications, status=cls.status_deliveryman)
+        cls.user_multi_qualifications_apprentice = Membership.objects.create(
+            user=cls.user_multi_qualifications, status=cls.status_apprentice)
 
         ######################## We create all variables ######################
         ######################## We create all variables ######################
@@ -197,7 +212,7 @@ class DatasAPITestCase(APITestCase):
 
         cls.url_status_list = reverse_lazy('status-list')
         cls.url_users_list = reverse_lazy('users-list')
-        cls.url_users_detail = 'users-detail'
         cls.url_memberships_list = reverse_lazy('memberships-list')
-        cls.url_memberships_detail = 'memberships-list'
+        cls.url_users_detail = 'users-detail'
+        cls.url_memberships_detail = 'memberships-detail'
         cls.con_user = APIClient()

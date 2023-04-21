@@ -6,7 +6,7 @@ from rest_framework import status
 
 from ..models import Membership, CustomUser, Status
 from ..serializers import LightMembershipSerializer, HeavyMembershipSerializer, CreateMembershipSerializer
-from ..permissions import IsActive, IsBoss, IsNotClient
+from ..permissions import IsActive, IsBoss, IsNotClient, IsCrudOnUserAllowed
 
 
 
@@ -18,7 +18,8 @@ class MembershipList(APIView):
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
-        IsNotClient
+        IsNotClient,
+        IsCrudOnUserAllowed
     ]
 
     def get(self, request, format=None):
@@ -76,8 +77,6 @@ class MembershipDetail(APIView):
                     user.hightest_level = status_obj.level
             membership.delete()
         else:
-            raise ValueError(
-                'If you want to destitute this user from this status register him in an other before.'
-            )
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
