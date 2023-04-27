@@ -67,15 +67,18 @@ class MembershipDetail(APIView):
     def delete(self, request, pk, format=None):
 
         membership = self.get_object(pk)
-        all_his_status = Membership.objects.filter(user=membership.user).exclude(id=membership.pk)
-        if len(all_his_status) > 0:
+        all_his_other_status = Membership.objects.filter(user=membership.user).exclude(id=membership.pk)
+        if len(all_his_other_status) > 0:
+            hightest_level = 0
             user = CustomUser.objects.get(id=membership.user.pk)
             user.hightest_level = str(int(user.hightest_level) - 1)
-            for each_membership in all_his_status:
+            for each_membership in all_his_other_status:
                 status_obj = Status.objects.get(id=each_membership.status.pk)
-                if int(status_obj.level) > int(user.hightest_level):
-                    user.hightest_level = status_obj.level
+                if int(status_obj.level) > hightest_level:
+                    hightest_level = int(status_obj.level)
             membership.delete()
+            user.hightest_level = str(hightest_level)
+            user.save()
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
 

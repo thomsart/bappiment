@@ -48,32 +48,6 @@ class CreateCustomUserSerializer(serializers.Serializer):
 
             return user
 
-# {
-# "email": "bd@gmail.com",
-# "first_name": "Bernard",
-# "last_name": "Delb",
-# "phone": "0646756943",
-# "password": "thebigboss77+",
-# "status": "patron"
-# }
-
-# {
-# "email": "george@gmail.com",
-# "first_name": "George",
-# "last_name": "McFly",
-# "phone": "0646756943",
-# "password": "2virgule21gigawatt+",
-# "status": "électrotechnicien"
-# }
-
-# {
-# "email": "nat@gmail.com",
-# "first_name": "Nathalie",
-# "last_name": "McFly",
-# "phone": "0646756944",
-# "password": "tatayoyo77+",
-# "status": "comptable"
-# }
 
 class UpdateCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -102,45 +76,6 @@ class CreateMembershipSerializer(serializers.Serializer):
     status = StatusSerializer()
     user = LightCustomUserSerializer()
 
-# {
-#     "user": {
-#         "id": 3,
-#         "first_name": "Bernard",
-#         "last_name": "Delb",
-#         "phone": "0646756938"
-#     },
-#     "status": {
-#         "name": "patron"
-#     }
-# }
-
-# {
-#     "user":
-#         {
-#             "id": 4,
-#             "first_name": "Julie",
-#             "last_name": "Perin",
-#             "phone": "0646756939"
-#         },
-#     "status":
-#         {
-#             "name": "comptable"
-#         }
-# }
-
-# {
-#     "user":
-#         {
-#             "id": 9,
-#             "first_name": "George",
-#             "last_name": "McFly",
-#             "phone": "0646756943"
-#         },
-#     "status":
-#         {
-#             "name": "comptable"
-#         }
-# }
 
     def to_internal_value(self, data):
 
@@ -174,8 +109,9 @@ class CreateMembershipSerializer(serializers.Serializer):
         membership = Membership.objects.create(**validated_data)
         membership.save()
 
-        user = CustomUser.objects.get(id=validated_data["user"].id)
-        status = Status.objects.get(name=validated_data["status"].name)
+        user = CustomUser.objects.get(pk=membership.user.pk)
+        status = Status.objects.get(pk=membership.status.pk)
+
         if int(user.hightest_level) < int(status.level):
             user.hightest_level = status.level
             user.save()
