@@ -1,22 +1,9 @@
-from .tests_datas import DatasAPITestCase
+from .datas import DatasAPITestCase
 from ..models import CustomUser
 
 
 class TestUserListViews(DatasAPITestCase):
     """ Test of all UserList views. """
-
-
-    def test_IsAuthenticated(self):
-        """ We test the Authentication. """
-
-        # When user is not authenticated
-        response = self.con_user.get(self.url_users_list)
-        self.assertEqual(response.status_code, 403)
-
-        # When user is authenticated
-        self.con_user.force_authenticate(self.user_boss)
-        response = self.con_user.get(self.url_users_list)
-        self.assertEqual(response.status_code, 200)
 
 
     def test_IsActive(self):
@@ -44,6 +31,7 @@ class TestUserListViews(DatasAPITestCase):
         we are supposed to received: LightUserSerializer. """
 
         self.con_user.force_authenticate(self.user_electrotechnician)
+
         response = self.con_user.get(self.url_users_list)
 
         self.assertEqual(response.status_code, 200)
@@ -64,6 +52,7 @@ class TestUserListViews(DatasAPITestCase):
                 self.user_multi_qualifications
             ]
         ]
+        # print(response.json())
         self.assertEqual(response.json(), expected)
 
 

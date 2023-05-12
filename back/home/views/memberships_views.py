@@ -6,20 +6,20 @@ from rest_framework import status
 
 from ..models import Membership, CustomUser, Status
 from ..serializers import LightMembershipSerializer, HeavyMembershipSerializer, CreateMembershipSerializer
-from ..permissions import IsActive, IsBoss, IsNotClient, IsCrudOnUserAllowed
+from ..permissions import IsActive, IsBoss, IsNotClient, IsCrudOnMembershipAllowed
 
 
 
 class MembershipList(APIView):
     """
-    List all users with their status, or attribute a status to a user.
+    List all users with their status, or attribute a status to a user .
     """
 
     permission_classes = [
         permissions.IsAuthenticated,
         IsActive,
         IsNotClient,
-        IsCrudOnUserAllowed
+        IsCrudOnMembershipAllowed
     ]
 
     def get(self, request, format=None):
@@ -48,12 +48,12 @@ class MembershipList(APIView):
 
 class MembershipDetail(APIView):
     """
-    Delete an attribution of a user's status.
+    Unregister a user from a status.
     """
 
     permission_classes = [
         permissions.IsAuthenticated,
-        IsBoss
+        IsCrudOnMembershipAllowed
     ]
 
     def get_object(self, pk):
@@ -67,19 +67,25 @@ class MembershipDetail(APIView):
     def delete(self, request, pk, format=None):
 
         membership = self.get_object(pk)
-        all_his_other_status = Membership.objects.filter(user=membership.user).exclude(id=membership.pk)
-        if len(all_his_other_status) > 0:
-            hightest_level = 0
-            user = CustomUser.objects.get(id=membership.user.pk)
-            user.hightest_level = str(int(user.hightest_level) - 1)
-            for each_membership in all_his_other_status:
-                status_obj = Status.objects.get(id=each_membership.status.pk)
-                if int(status_obj.level) > hightest_level:
-                    hightest_level = int(status_obj.level)
-            membership.delete()
-            user.hightest_level = str(hightest_level)
-            user.save()
-        else:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+        other_memberships = Membership.objects.filter(user=membership.user).exclude(id=membership.pk)
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+            if len(other_memberships) > 0:
+                hightest_level = 0
+                user = CustomUser.objects.get(id=membership.user.pk)
+                for each_membership in other_memberships:
+                    status_obj = Status.objects.get(id=each_membership.status.pk)
+                    if int(status_obj.level) > hightest_level:
+                        hightest_level = int(status_obj.level)
+                membership.delete()
+                user.hightest_level = str(hightest_level)
+                user.save()
+
+                return Response(status=status.HTTP_204_NO_CONTENT)
+
+            else:
+                raise PermissionError
+
+        except PermissionError:
+
+            return Response(status=status.HTTP_403_FORBIDDEN)

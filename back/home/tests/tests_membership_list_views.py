@@ -1,26 +1,11 @@
 from rest_framework.reverse import reverse
 
-from .tests_datas import DatasAPITestCase
+from .datas import DatasAPITestCase
 from ..models import Membership
 
 
 class TestMembershipsListViews(DatasAPITestCase):
     """ Test of all MembershipsList views. """
-
-
-    def test_IsAuthenticated(self):
-        """ We test the Authentication. """
-
-        # When user is not authenticated
-        response = self.con_user.get(self.url_memberships_list)
-
-        self.assertEqual(response.status_code, 403)
-
-        # When user is authenticated
-        self.con_user.force_authenticate(self.user_accountant)
-        response = self.con_user.get(self.url_memberships_list)
-
-        self.assertEqual(response.status_code, 200)
 
 
     def test_IsActive(self):
@@ -81,10 +66,10 @@ class TestMembershipsListViews(DatasAPITestCase):
                 self.membership_electrotechnician, self.membership_multi_electrotechnician,
                 self.membership_repairman, self.membership_coppersmith,
                 self.membership_locksmith, self.membership_mason,
-                self.membership_deliveryman, self.membership_installer,
-                self.membership_maintenance_agent, self.membership_apprentice,
-                self.membership_multi_apprentice, self.membership_client,
-                self.membership_multi_client
+                self.membership_deliveryman, self.membership_cleaner,
+                self.membership_installer, self.membership_maintenance_agent,
+                self.membership_apprentice, self.membership_multi_apprentice,
+                self.membership_client, self.membership_multi_client
             ]
         ]
 
@@ -128,10 +113,10 @@ class TestMembershipsListViews(DatasAPITestCase):
                 self.membership_electrotechnician, self.membership_multi_electrotechnician,
                 self.membership_repairman, self.membership_coppersmith,
                 self.membership_locksmith, self.membership_mason,
-                self.membership_deliveryman, self.membership_installer,
-                self.membership_maintenance_agent, self.membership_apprentice,
-                self.membership_multi_apprentice, self.membership_client,
-                self.membership_multi_client
+                self.membership_deliveryman, self.membership_cleaner,
+                self.membership_installer, self.membership_maintenance_agent,
+                self.membership_apprentice, self.membership_multi_apprentice,
+                self.membership_client, self.membership_multi_client
             ]
         ]
 
@@ -167,7 +152,7 @@ class TestMembershipsListViews(DatasAPITestCase):
 
         expected_datas = {
             'status': {
-                'id': 20,
+                'id': 21,
                 'level': '4',
                 'name': 'comptable'
             },

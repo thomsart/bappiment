@@ -29,7 +29,7 @@ class CustomUserList(APIView):
 
         users = CustomUser.objects.filter(is_superuser=False, is_staff=False, is_active=True)
 
-        if int(request.user.hightest_level) >= 4:
+        if int(request.user.hightest_level) > 3:
             serializer = HeavyCustomUserSerializer(users, many=True)
         else:
             serializer = LightCustomUserSerializer(users, many=True)
@@ -78,7 +78,7 @@ class CustomUserDetail(APIView):
 
         user = self.get_object(pk)
 
-        if int(request.user.hightest_level) >= 4:
+        if int(request.user.hightest_level) > 3:
             serializer = HeavyCustomUserSerializer(user)
         else:
             serializer = LightCustomUserSerializer(user)
@@ -107,7 +107,9 @@ class CustomUserDetail(APIView):
         try:
             user.is_active = False
             user.save()
+
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         except PermissionError:
+
             return Response(status=status.HTTP_403_FORBIDDEN)

@@ -16,16 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from agenda.urls import agenda_router
-from chat.urls import chat_router
-from client.urls import client_router
-from financial.urls import financial_router
+from client.urls import client_urlpatterns
 from home.urls import home_urlpatterns
-from product.urls import product_router
-from shop.urls import shop_router
-from stats.urls import stats_router
-from stock.urls import stock_router
-from vehicle.urls import vehicle_router
 
 
 
@@ -35,6 +27,7 @@ urlpatterns = [
     # Additionally, we include login URLs for the browsable API.
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
- 
+
 urlpatterns += home_urlpatterns
+urlpatterns += client_urlpatterns
 

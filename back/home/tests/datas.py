@@ -1,5 +1,4 @@
-from rest_framework.test import APITestCase
-from rest_framework.test import APIClient
+from rest_framework.test import APITestCase, APIClient
 from django.urls import reverse_lazy
 
 from ..models import CustomUser, Status, Membership
@@ -30,7 +29,7 @@ class DatasAPITestCase(APITestCase):
 
         cls.status_boss = Status.objects.create(name=STATUS['boss'][LANGUAGE], level=STATUS['boss']['level'])
         cls.status_accountant = Status.objects.create(name=STATUS['accountant'][LANGUAGE], level=STATUS['accountant']['level'])
-        cls.status_hr = Status.objects.create(name=STATUS['hr'][LANGUAGE], level=STATUS['boss']['level'])
+        cls.status_hr = Status.objects.create(name=STATUS['hr'][LANGUAGE], level=STATUS['hr']['level'])
         cls.status_commercial = Status.objects.create(name=STATUS['commercial'][LANGUAGE], level=STATUS['commercial']['level'])
         cls.status_repair_operator = Status.objects.create(name=STATUS['repair_operator'][LANGUAGE], level=STATUS['repair_operator']['level'])
         cls.status_receptionist = Status.objects.create(name=STATUS['receptionist'][LANGUAGE], level=STATUS['receptionist']['level'])
@@ -41,6 +40,7 @@ class DatasAPITestCase(APITestCase):
         cls.status_locksmith = Status.objects.create(name=STATUS['locksmith'][LANGUAGE], level=STATUS['locksmith']['level'])
         cls.status_mason = Status.objects.create(name=STATUS['mason'][LANGUAGE], level=STATUS['mason']['level'])
         cls.status_deliveryman = Status.objects.create(name=STATUS['deliveryman'][LANGUAGE], level=STATUS['deliveryman']['level'])
+        cls.status_cleaner = Status.objects.create(name=STATUS['cleaner'][LANGUAGE], level=STATUS['cleaner']['level'])
         cls.status_installer = Status.objects.create(name=STATUS['installer'][LANGUAGE], level=STATUS['installer']['level'])
         cls.status_maintenance_agent = Status.objects.create(name=STATUS['maintenance_agent'][LANGUAGE], level=STATUS['maintenance_agent']['level'])
         cls.status_apprentice = Status.objects.create(name=STATUS['apprentice'][LANGUAGE], level=STATUS['apprentice']['level'])
@@ -159,6 +159,8 @@ class DatasAPITestCase(APITestCase):
             hightest_level=STATUS['deliveryman']['level'])
         cls.membership_deliveryman = Membership.objects.create(
             user=cls.user_deliveryman, status=cls.status_deliveryman)
+        cls.membership_cleaner = Membership.objects.create(
+            user=cls.user_deliveryman, status=cls.status_cleaner)
 
         cls.user_installer = CustomUser.objects.create(
             first_name="Thomas", last_name="Cottenceau", email="totococo@gmail.com",
@@ -227,8 +229,12 @@ class DatasAPITestCase(APITestCase):
         ######################## We create all variables ######################
 
         cls.url_status_list = reverse_lazy('status-list')
+        cls.url_status_detail = 'status-detail'
+
         cls.url_users_list = reverse_lazy('users-list')
-        cls.url_memberships_list = reverse_lazy('memberships-list')
         cls.url_users_detail = 'users-detail'
+
+        cls.url_memberships_list = reverse_lazy('memberships-list')
         cls.url_memberships_detail = 'memberships-detail'
+
         cls.con_user = APIClient()

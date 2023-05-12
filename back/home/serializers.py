@@ -11,7 +11,7 @@ from .managers import CustomUserManager
 class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Status
-        fields = ["id", "name", "level"]
+        fields = ['id', 'name', 'level']
 
 
 ########### USER #########################################################
@@ -41,7 +41,7 @@ class CreateCustomUserSerializer(serializers.Serializer):
         status = Status.objects.get(name=status_name)
         user = CustomUser.objects.create_user(**validated_data)
 
-        if user:
+        if user and status:
             user.hightest_level = status.level
             user.save()
             Membership.objects.create(user=user, status=status)
