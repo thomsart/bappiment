@@ -10,6 +10,9 @@ from .management.commands.datas.user_status import STATUS
 ############################ Internal user ####################################
 ###############################################################################
 
+class IsSuperuser(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_superuser
 
 class IsActive(permissions.BasePermission):
     """ This permission just check if the user is active. """
@@ -263,15 +266,11 @@ class IsCrudOnUserAllowed(permissions.BasePermission):
         level = request.user.hightest_level
         superuser = request.user.is_superuser
 
-        if superuser:
+        if superuser or level == '5':
             return True
 
         if request.method == "GET":
             if int(level) > 1:
-                return True
-
-        if request.method in ["POST", "PUT", "DELETE"]:
-            if int(level) == 5:
                 return True
 
         return False
@@ -288,16 +287,13 @@ class IsCrudOnMembershipAllowed(permissions.BasePermission):
     def has_permission(self, request, view):
 
         level = request.user.hightest_level
+        superuser = request.user.is_superuser
 
-        if request.user.is_superuser:
+        if superuser or level == '5':
             return True
 
         if request.method == "GET":
             if int(level) > 1:
-                return True
-
-        if request.method in ["POST", "DELETE"]:
-            if int(level) == 5:
                 return True
 
         return False

@@ -1,8 +1,7 @@
 from datetime import date
-
 from django.db import models
 
-
+from home.models import CustomUser
 
 class LegalEntity(models.Model):
 
@@ -22,6 +21,7 @@ class Client(models.Model):
     country = models.CharField(max_length=20)
     date = models.DateField(auto_now_add=True)
     is_still_client = models.BooleanField(default=True)
+    contact = models.ForeignKey(CustomUser, models.SET_NULL, blank=True, null=True)
 
     class Meta:
         ordering = ['legal_entity', 'name']
@@ -40,6 +40,7 @@ class Installation(models.Model):
     date_delivering = models.DateField(default=date.today)
     maintenance_nb  = models.PositiveSmallIntegerField(default=0)
     info = models.TextField(max_length=200, blank=True, default="")
+    is_still_in_service = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['client']

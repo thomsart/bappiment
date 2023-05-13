@@ -16,7 +16,8 @@ class LegalEntitySerializer(serializers.ModelSerializer):
 class LightClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ['name', 'nb_street', 'street', 'zip_code', 'city', 'country']
+        fields = ['legal_entity', 'name', 'nb_street', 'street', 'zip_code', 'city',
+                  'country', 'contact']
 
 
 class HeavyClientSerializer(serializers.ModelSerializer):
@@ -24,7 +25,7 @@ class HeavyClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ['legal_entity', 'name', 'siren', 'siret', 'nb_street', 'street',
-                  'zip_code', 'city', 'country', 'date']
+                  'zip_code', 'city', 'country', 'date', 'contact']
 
 
 class CreateClientSerializer(serializers.ModelSerializer):

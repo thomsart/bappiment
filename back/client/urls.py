@@ -1,5 +1,5 @@
 from django.urls import path
-from rest_framework import routers
+from rest_framework.urlpatterns import format_suffix_patterns
 
 from .views import entities_views, clients_views, installations_views
 
@@ -12,3 +12,5 @@ client_urlpatterns = [
     path('installations/', installations_views.InstallationList.as_view(), name='installations-list'),
     path('installations/<int:pk>/', installations_views.InstallationDetail.as_view(), name='installations-detail'),
 ]
+
+client_urlpatterns = format_suffix_patterns(client_urlpatterns)

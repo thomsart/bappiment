@@ -1,11 +1,11 @@
 from rest_framework.test import APITestCase, APIClient
 from django.urls import reverse_lazy
 
-from ..models import CustomUser, Status, Membership
-
-from ..management.commands.datas import LANGUAGE
-from ..management.commands.datas.user_status import STATUS
-
+from ..models import LegalEntity, Client, Installation
+from home.models import CustomUser, Status, Membership
+from home.management.commands.datas import LANGUAGE
+from home.management.commands.datas.user_status import STATUS
+from home.management.commands.datas.legal_entities  import LEGAL_ENTITIES
 
 
 class DatasAPITestCase(APITestCase):
@@ -39,17 +39,15 @@ class DatasAPITestCase(APITestCase):
         cls.status_supplier = Status.objects.create(name=STATUS['supplier'][LANGUAGE], level=STATUS['supplier']['level'])
 
 
-        ##################### We create all serializers #######################
-        ##################### We create all serializers #######################
-        ##################### We create all serializers #######################
+        ##################### We create all LegaleEntities ############################
+        ##################### We create all LegaleEntities ############################
+        ##################### We create all LegaleEntities ############################
 
-        # cls.status_serializer = StatusSerializer()
-        # cls.light_user_serializer = LightCustomUserSerializer
-        # cls.heavy_user_serializer = HeavyCustomUserSerializer()
-        # cls.create_user_serializer = CreateCustomUserSerializer()
-        # cls.membership_serializer = MembershipSerializer()
-        # cls.create_membership_serializer = CreateMembershipSerializer()
-
+        cls.legal_entity_family = LegalEntity.objects.create(name=LEGAL_ENTITIES['family'][LANGUAGE])
+        cls.legal_entity_syndic = LegalEntity.objects.create(name=LEGAL_ENTITIES['syndic'][LANGUAGE])
+        cls.legal_entity_company = LegalEntity.objects.create(name=LEGAL_ENTITIES['company'][LANGUAGE])
+        cls.legal_entity_association = LegalEntity.objects.create(name=LEGAL_ENTITIES['association'][LANGUAGE])
+        cls.legal_entity_municipality = LegalEntity.objects.create(name=LEGAL_ENTITIES['municipality'][LANGUAGE])
 
         ######################### We create all users #########################
         ######################### We create all users #########################
@@ -219,13 +217,13 @@ class DatasAPITestCase(APITestCase):
         ######################## We create all variables ######################
         ######################## We create all variables ######################
 
-        cls.url_status_list = reverse_lazy('status-list')
-        cls.url_status_detail = 'status-detail'
+        cls.url_entities_list = reverse_lazy('entities-list')
+        cls.url_entities_detail = 'entities-detail'
 
-        cls.url_users_list = reverse_lazy('users-list')
-        cls.url_users_detail = 'users-detail'
+        cls.url_clients_list = reverse_lazy('clients-list')
+        cls.url_clients_detail = 'clients-detail'
 
-        cls.url_memberships_list = reverse_lazy('memberships-list')
-        cls.url_memberships_detail = 'memberships-detail'
+        cls.url_installations_list = reverse_lazy('installations-list')
+        cls.url_installations_detail = 'installations-detail'
 
         cls.con_user = APIClient()

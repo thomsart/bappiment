@@ -25,12 +25,12 @@ class ClientList(APIView):
 
     def get(self, request, format=None):
 
-        clients = Client.objects.filter(is_still_client=True)
+        clients = Client.objects.all() #filter(is_still_client=True)
 
         if int(request.user.hightest_level) > 3:
-            serializer = HeavyClientSerializer(clients)
+            serializer = HeavyClientSerializer(clients, many=True)
         else:
-            serializer = LightClientSerializer(clients)
+            serializer = LightClientSerializer(clients, many=True)
 
         return Response(serializer.data)
 
@@ -102,6 +102,7 @@ class ClientDetail(APIView):
         try:
             client.is_still_client = False
             client.save()
+
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         except PermissionError:

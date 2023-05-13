@@ -21,11 +21,13 @@ class IsCrudOnClientAllowed(permissions.BasePermission):
 
         level = request.user.hightest_level
         superuser = request.user.is_superuser
+
+        boss = Status.objects.get(name=STATUS['boss'][LANGUAGE])
         commercial = Status.objects.get(name=STATUS['commercial'][LANGUAGE])
         technical_commercial = Status.objects.get(name=STATUS['technical_commercial'][LANGUAGE])
         allowed_status = Membership.objects.filter(
             user=request.user.id,
-            status_has_any_keys=[commercial.pk, technical_commercial.pk]
+            status_id__in=[boss.pk, commercial.pk, technical_commercial.pk]
         ).exists()
 
         if superuser or level == 5:
@@ -41,10 +43,6 @@ class IsCrudOnClientAllowed(permissions.BasePermission):
 
         if request.method == "PUT":
             if int(level) > 3:
-                return True
-
-        if request.method == "DELETE":
-            if int(level) == 5:
                 return True
 
         return False

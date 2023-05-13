@@ -54,6 +54,7 @@ class UpdateCustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ["first_name", "last_name", "email", "phone", "permanent_contract"]
 
+
 ########### MEMBERSHIP ###################################################
 
 class LightMembershipSerializer(serializers.ModelSerializer):
