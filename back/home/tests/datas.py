@@ -2,13 +2,12 @@ from rest_framework.test import APITestCase, APIClient
 from django.urls import reverse_lazy
 
 from ..models import CustomUser, Status, Membership
-
 from ..management.commands.datas import LANGUAGE
 from ..management.commands.datas.user_status import STATUS
 
 
 
-class DatasAPITestCase(APITestCase):
+class HomeDatasAPITestCase(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -37,19 +36,6 @@ class DatasAPITestCase(APITestCase):
         cls.status_apprentice = Status.objects.create(name=STATUS['apprentice'][LANGUAGE], level=STATUS['apprentice']['level'])
         cls.status_client = Status.objects.create(name=STATUS['client'][LANGUAGE], level=STATUS['client']['level'])
         cls.status_supplier = Status.objects.create(name=STATUS['supplier'][LANGUAGE], level=STATUS['supplier']['level'])
-
-
-        ##################### We create all serializers #######################
-        ##################### We create all serializers #######################
-        ##################### We create all serializers #######################
-
-        # cls.status_serializer = StatusSerializer()
-        # cls.light_user_serializer = LightCustomUserSerializer
-        # cls.heavy_user_serializer = HeavyCustomUserSerializer()
-        # cls.create_user_serializer = CreateCustomUserSerializer()
-        # cls.membership_serializer = MembershipSerializer()
-        # cls.create_membership_serializer = CreateMembershipSerializer()
-
 
         ######################### We create all users #########################
         ######################### We create all users #########################

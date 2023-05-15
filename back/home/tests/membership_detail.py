@@ -1,9 +1,9 @@
 from rest_framework.reverse import reverse
 
-from .datas import DatasAPITestCase
+from .datas import HomeDatasAPITestCase
 
 
-class TestMembershipDetailViews(DatasAPITestCase):
+class TestMembershipDetailViews(HomeDatasAPITestCase):
     """ Test of all UserList views. """
 
 
@@ -28,6 +28,7 @@ class TestMembershipDetailViews(DatasAPITestCase):
     def test_DeleteMembershipDoesNotExists(self):
         """ We test to delete a user which does not exists. """
 
+        self.user_boss.refresh_from_db()
         self.con_user.force_authenticate(self.user_boss)
         response = self.con_user.delete(reverse(
             self.url_memberships_detail, kwargs={'pk': 1000}))
@@ -37,6 +38,7 @@ class TestMembershipDetailViews(DatasAPITestCase):
     def test_DeleteMembershipWhenUserHasJustOneStatus(self):
         """  """
 
+        self.user_boss.refresh_from_db()
         self.con_user.force_authenticate(self.user_boss)
         response = self.con_user.delete(reverse(
             self.url_memberships_detail, kwargs={'pk': self.membership_hr.pk}))
@@ -46,8 +48,8 @@ class TestMembershipDetailViews(DatasAPITestCase):
     def test_DeleteMembershipsAndCheckTheHightestlevel(self):
         """  """
 
+        self.user_boss.refresh_from_db()
         self.con_user.force_authenticate(self.user_boss)
-
         self.con_user.delete(reverse(
             self.url_memberships_detail,
             kwargs={'pk': self.membership_multi_hr.pk}))

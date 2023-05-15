@@ -1,10 +1,10 @@
 from rest_framework.reverse import reverse
 
-from .datas import DatasAPITestCase
+from .datas import HomeDatasAPITestCase
 from ..models import Membership
 
 
-class TestMembershipsListViews(DatasAPITestCase):
+class TestMembershipsListViews(HomeDatasAPITestCase):
     """ Test of all MembershipsList views. """
 
 
@@ -152,15 +152,15 @@ class TestMembershipsListViews(DatasAPITestCase):
 
         expected_datas = {
             'status': {
-                'id': 21,
-                'level': '4',
-                'name': 'comptable'
+                'id': self.status_accountant.pk,
+                'level': self.status_accountant.level,
+                'name': self.status_accountant.name
             },
             'user': {
-                'id': 32,
-                'first_name': 'Frédéric',
-                'last_name': 'Souris',
-                'phone': '0756364578'
+                'id': self.user_electrotechnician.pk,
+                'first_name': self.user_electrotechnician.first_name,
+                'last_name': self.user_electrotechnician.last_name,
+                'phone': self.user_electrotechnician.phone
             }
         }
 

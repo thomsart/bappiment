@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from .views import entities_views, clients_views, installations_views
+from .views import clients_views, entities_views, installations_views
 
 
 client_urlpatterns = [

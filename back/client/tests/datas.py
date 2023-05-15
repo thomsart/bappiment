@@ -8,11 +8,11 @@ from home.management.commands.datas.user_status import STATUS
 from home.management.commands.datas.legal_entities  import LEGAL_ENTITIES
 
 
-class DatasAPITestCase(APITestCase):
+class ClientDatasAPITestCase(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
-        """ Creation of all users' types. """
+        """ Creation of all datas. """
 
         ##################### We create all status ############################
         ##################### We create all status ############################

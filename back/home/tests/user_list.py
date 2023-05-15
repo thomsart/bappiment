@@ -1,8 +1,8 @@
-from .datas import DatasAPITestCase
+from .datas import HomeDatasAPITestCase
 from ..models import CustomUser
 
 
-class TestUserListViews(DatasAPITestCase):
+class TestUserListViews(HomeDatasAPITestCase):
     """ Test of all UserList views. """
 
 
@@ -26,10 +26,11 @@ class TestUserListViews(DatasAPITestCase):
         self.assertEqual(response.status_code, 403)
 
 
-    def test_GetLightUserSerializer(self):
+    def test_GetAllLightUserSerializer(self):
         """ We test here that the returned response match with the serializer
-        we are supposed to received: LightUserSerializer. """
+        we are supposed to received: AllLightUserSerializer. """
 
+        self.user_electrotechnician.refresh_from_db()
         self.con_user.force_authenticate(self.user_electrotechnician)
 
         response = self.con_user.get(self.url_users_list)
@@ -56,10 +57,11 @@ class TestUserListViews(DatasAPITestCase):
         self.assertEqual(response.json(), expected)
 
 
-    def test_GetHeavyUserSerializer(self):
+    def test_GetAllHeavyUserSerializer(self):
         """ We test here that the returned response match with the serializer
         we are supposed to received: HeavyUserSerializer. """
 
+        self.user_accountant.refresh_from_db()
         self.con_user.force_authenticate(self.user_accountant)
         response = self.con_user.get(self.url_users_list)
 
