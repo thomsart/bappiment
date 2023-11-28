@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from django.http import Http404
 from rest_framework import status
 
-from ..models import Client
-from ..serializers import LightClientSerializer, HeavyClientSerializer, CreateClientSerializer, UpdateClientSerializer
 from home.permissions import IsActive, IsNotClient
+from ..models import Client
 from ..permissions import IsCrudOnClientAllowed
+from ..serializers import LightClientSerializer, HeavyClientSerializer, CreateClientSerializer, UpdateClientSerializer
 
 
 
@@ -25,7 +25,7 @@ class ClientList(APIView):
 
     def get(self, request, format=None):
 
-        clients = Client.objects.all() #filter(is_still_client=True)
+        clients = Client.objects.filter(is_still_client=True)
 
         if int(request.user.hightest_level) > 3:
             serializer = HeavyClientSerializer(clients, many=True)
@@ -64,7 +64,12 @@ class ClientDetail(APIView):
     def get_object(self, pk):
 
         try:
-            return Client.objects.get(id=pk)
+            client = Client.objects.get(id=pk)
+            if client.is_still_client:
+                return Client.objects.get(id=pk)
+            else:
+                raise Http404
+
         except Client.DoesNotExist:
             raise Http404
 
@@ -101,6 +106,7 @@ class ClientDetail(APIView):
 
         try:
             client.is_still_client = False
+            # maybe we need to deactivate the contact user(s) ?
             client.save()
 
             return Response(status=status.HTTP_204_NO_CONTENT)

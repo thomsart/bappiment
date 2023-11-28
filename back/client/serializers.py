@@ -8,12 +8,13 @@ from .models import LegalEntity, Client, Installation
 class LegalEntitySerializer(serializers.ModelSerializer):
     class Meta:
         model = LegalEntity
-        fields = '__all__'
+        fields = ['name']
 
 
 ########### CLIENT ############################################################
 
 class LightClientSerializer(serializers.ModelSerializer):
+    legal_entity = LegalEntitySerializer()
     class Meta:
         model = Client
         fields = ['legal_entity', 'name', 'nb_street', 'street', 'zip_code', 'city',

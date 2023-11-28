@@ -3,6 +3,8 @@ from django.db import models
 
 from home.models import CustomUser
 
+
+
 class LegalEntity(models.Model):
 
     name = models.CharField(max_length=15, unique=True)
