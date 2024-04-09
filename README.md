@@ -97,3 +97,4 @@ Site internet de l'entreprise:
 - Contact
 - Blog
 - Mentions legales et CGU
+- possibilite de se logger

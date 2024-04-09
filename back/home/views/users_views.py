@@ -1,20 +1,52 @@
+from django.contrib.auth import get_user_model, login, logout
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from rest_framework import status
 
-from ..models import CustomUser, Status, Membership
+# from .validations import custom_validation
+from ..models import CustomUser
 from ..serializers import (LightCustomUserSerializer, HeavyCustomUserSerializer,
-                           CreateCustomUserSerializer, UpdateCustomUserSerializer)
+                           CreateCustomUserSerializer, UpdateCustomUserSerializer,
+                           LoginCustomUserSerializer)
 from ..permissions import IsActive, IsNotClient, IsCrudOnUserAllowed
 from ..management.commands.datas import LANGUAGE
 from ..management.commands.datas.user_status import STATUS
 
 
 
+class CustomUserLogin(APIView):
+
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = (SessionAuthentication,)
+
+    def post(self, request):
+
+        data = request.data
+        # assert validate_email(data)
+        # assert validate_password(data)
+        serializer = LoginCustomUserSerializer(data=data)
+
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.check_user(data)
+            serializer = HeavyCustomUserSerializer(user)
+            login(request, user)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CustomUserLogout(APIView):
+
+    def post(self, request):
+
+        logout(request)
+
+        return Response(status=status.HTTP_200_OK)
+
+
 class CustomUserList(APIView):
-    """  
+    """
     List all users, or create a new one.
     """
 

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model, authenticate
 
 from .models import CustomUser, Status, Membership
 from .forms import CustomUserCreationForm
@@ -15,6 +16,21 @@ class StatusSerializer(serializers.ModelSerializer):
 
 
 ########### USER #########################################################
+
+####################
+class LoginCustomUserSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    def check_user(self, clean_data):
+        user = authenticate(email=clean_data['email'],
+                            password=clean_data['password'])
+
+        if not user:
+            # raise ValidationError('user not found')
+            return False
+        return user
+####################
 
 class LightCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
